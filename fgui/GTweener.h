@@ -1,0 +1,111 @@
+#pragma once
+
+#include "TweenValue.h"
+#include "FieldTypes.h"
+
+namespace cocos2d {
+	class Ref;
+}
+
+namespace fgui {
+	
+	class GTweener : public cocos2d::Ref
+	{
+	public:
+		typedef std::function<void(GTweener* tweener)> GTweenCallback;
+		typedef std::function<void()> GTweenCallback0;
+
+		GTweener();
+		~GTweener();
+		GTweener* setDelay(float value);
+		float getDelay() const { return _delay; }
+		GTweener* setDuration(float value);
+		float getDuration() const { return _duration; }
+		GTweener* setBreakpoint(float value);
+		GTweener* setEase(EaseType value);
+		GTweener* setEasePeriod(float value);
+		GTweener* setEaseOvershootOrAmplitude(float value);
+		GTweener* setRepeat(int repeat, bool yoyo = false);
+		int getRepeat() const { return _repeat; }
+		GTweener* setTimeScale(float value);
+		GTweener* setSnapping(bool value);
+		GTweener* setTargetAny(void* value);
+		GTweener* setTarget(cocos2d::Ref* target);
+		GTweener* setTarget(cocos2d::Ref* target, TweenPropType propType);
+		void* getTarget() const { return _target; }
+		GTweener* setUserData(const cocos2d::Value& value);
+		const cocos2d::Value& getUserData() const { return _userData; }
+		GTweener* onUpdate(GTweenCallback callback);
+		GTweener* onStart(GTweenCallback callback);
+		GTweener* onComplete(GTweenCallback0 callback);
+		GTweener* onComplete1(GTweenCallback callback);
+
+		float getNormalizedTime() const { return _normalizedTime; }
+		bool isCompleted() const { return _ended != 0; }
+		bool allCompleted() const { return _ended == 1; }
+		GTweener* setPaused(bool paused);
+		void seek(float time);
+		void kill(bool complete = false);
+		
+
+		TweenValue startValue;
+		TweenValue endValue;
+		TweenValue value;
+		TweenValue deltaValue;
+
+	
+		GTweener* toValue(float start, float end, float duration);
+		GTweener* toVec2(const cocos2d::Vec2& start, const cocos2d::Vec2& end, float duration);
+		GTweener* toVec3(const cocos2d::Vec3& start, const cocos2d::Vec3& end, float duration);
+		GTweener* toVec4(const cocos2d::Vec4& start, const cocos2d::Vec4& end, float duration);
+		GTweener* toColor(const cocos2d::Color4B& start, const cocos2d::Color4B& end, float duration);
+		GTweener* toDouble(double start, double end, float duration);
+		GTweener* shake(const cocos2d::Vec2& start, float amplitude, float duration);
+	private:
+		float evaluate(EaseType easeType, float time, float duration, float overshootOrAmplitude, float period);
+		void setProps(cocos2d::Node* target, TweenPropType propType, const TweenValue& value);
+
+		void init();
+		void reset();
+		void update(float dt);
+		void update();
+		void callStartCallback();
+		void callUpdateCallback();
+		void callCompleteCallback();
+
+	private:
+		void* _target;
+		cocos2d::Ref* _refTarget;
+		TweenPropType _propType;
+		bool _killed;
+		bool _paused;
+
+		float _delay;
+		float _duration;
+		float _breakpoint;
+		EaseType _easeType;
+		float _easeOvershootOrAmplitude;
+		float _easePeriod;
+		int _repeat;
+		bool _yoyo;
+		float _timeScale;
+		bool _snapping;
+		cocos2d::Value _userData;
+		int _valueSize;
+
+		GTweenCallback _onUpdate;
+		GTweenCallback _onStart;
+		GTweenCallback _onComplete;
+		GTweenCallback0 _onComplete0;
+
+		bool _started;
+		int _ended;
+		float _elapsedTime;
+		float _normalizedTime;
+
+		friend class GTween;
+		friend class TweenManager;
+	};
+
+}
+

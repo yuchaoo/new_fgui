@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\cocosext">
+      <UniqueIdentifier>{f73c8d7b-9142-4a2b-9814-b52551d5f0c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\data">
+      <UniqueIdentifier>{b414075a-bab9-4764-8c21-03e3e651b897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\test">
+      <UniqueIdentifier>{e464c7b6-776b-41f8-a4ee-648fa32b659c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\package">
+      <UniqueIdentifier>{f0f5e573-9758-415a-8f01-548e3d5f26b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com">
+      <UniqueIdentifier>{06c91fff-ecbe-45b3-84ed-7055b6be8149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gear">
+      <UniqueIdentifier>{656fb795-d0e9-4888-a2a0-3813bb7431ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fgui\BitmapFont.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\ByteBuffer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\ChangePageAction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\Controller.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\ControllerAction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\FguiUtils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GLabel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GLoader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GTweener.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\HitTest.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\Margin.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\PlayTransitionAction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\RelationItem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\Relations.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\TextFormat.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\ToolSet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\TweenManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\TweenValue.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\UBBParser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\UIConfig.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\UIPackage.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GGraph.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GList.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GGroup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GTransition.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\cocosext\ccShaderEx.cpp">
+      <Filter>src\cocosext</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\cocosext\ccExtend.cpp">
+      <Filter>src\cocosext</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearData.cpp">
+      <Filter>src\data</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\ObjectData.cpp">
+      <Filter>src\data</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\TransitionData.cpp">
+      <Filter>src\data</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\ComponentData.cpp">
+      <Filter>src\data</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\test\TestScene.cpp">
+      <Filter>src\test</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\PkgItem.cpp">
+      <Filter>src\package</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\Package.cpp">
+      <Filter>src\package</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\PackageManager.cpp">
+      <Filter>src\package</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GObject.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GProgressBar.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GRichText.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GSlider.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GSprite.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GText.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GTextInput.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GAnimation.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GButton.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GComponent.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GContainer.cpp">
+      <Filter>src\com</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearAnimation.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearBase.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearColor.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearDisplay.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearIcon.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearLook.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearSize.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearText.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+    <ClCompile Include="fgui\GearXY.cpp">
+      <Filter>src\gear</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fgui\BitmapFont.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\ByteBuffer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\ChangePageAction.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\Controller.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\ControllerAction.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\FguiUtils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\FieldTypes.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GLabel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GLoader.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GTweener.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\HitTest.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\Margin.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\PlayTransitionAction.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\RelationItem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\Relations.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\TextFormat.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\ToolSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\TweenManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\TweenValue.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\UBBParser.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\UIConfig.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\UIPackage.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GGraph.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GList.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GGroup.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GTransition.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="GContainer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\cocosext\ccShaderEx.h">
+      <Filter>src\cocosext</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\cocosext\ccExtend.h">
+      <Filter>src\cocosext</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearData.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\ObjectData.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\TransitionData.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\ComponentData.h">
+      <Filter>src\data</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\test\TestScene.h">
+      <Filter>src\test</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\PkgItem.h">
+      <Filter>src\package</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\Package.h">
+      <Filter>src\package</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\PackageManager.h">
+      <Filter>src\package</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GObject.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GProgressBar.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GRichText.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GSlider.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GSprite.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GText.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GTextInput.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GAnimation.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GButton.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GComponent.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GContainer.h">
+      <Filter>src\com</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearAnimation.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearBase.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearColor.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearDisplay.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearIcon.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearLook.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearSize.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearText.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+    <ClInclude Include="fgui\GearXY.h">
+      <Filter>src\gear</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

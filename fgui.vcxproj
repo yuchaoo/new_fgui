@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6f942522-981a-4c87-a2e8-2ffc19991ace}</ProjectGuid>
+    <RootNamespace>fgui</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir>$(Configuration).win32\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;COCOS2D_DEBUG=1;CC_ENABLE_PREMULTIPLIED_ALPHA=0;CC_USE_PHYSICS=1;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)../../;$(ProjectDir)../../cocos;$(ProjectDir)../../external;$(ProjectDir)../../extensions;$(ProjectDir)../win32-specific/gles/include/OGLES;$(ProjectDir)../glfw3/include/win32;$(ProjectDir)../../cocos/platform/win32;$(ProjectDir)fgui;$(ProjectDir)fgui/cocosext;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4267;4251;4244;</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="fgui\BitmapFont.cpp" />
+    <ClCompile Include="fgui\ByteBuffer.cpp" />
+    <ClCompile Include="fgui\ChangePageAction.cpp" />
+    <ClCompile Include="fgui\cocosext\ccExtend.cpp" />
+    <ClCompile Include="fgui\cocosext\ccShaderEx.cpp" />
+    <ClCompile Include="fgui\ComponentData.cpp" />
+    <ClCompile Include="fgui\ObjectData.cpp" />
+    <ClCompile Include="fgui\Controller.cpp" />
+    <ClCompile Include="fgui\ControllerAction.cpp" />
+    <ClCompile Include="fgui\FguiUtils.cpp" />
+    <ClCompile Include="fgui\GAnimation.cpp" />
+    <ClCompile Include="fgui\GButton.cpp" />
+    <ClCompile Include="fgui\GComponent.cpp" />
+    <ClCompile Include="fgui\GContainer.cpp" />
+    <ClCompile Include="fgui\GearAnimation.cpp" />
+    <ClCompile Include="fgui\GearBase.cpp" />
+    <ClCompile Include="fgui\GearColor.cpp" />
+    <ClCompile Include="fgui\GearData.cpp" />
+    <ClCompile Include="fgui\GearDisplay.cpp" />
+    <ClCompile Include="fgui\GearIcon.cpp" />
+    <ClCompile Include="fgui\GearLook.cpp" />
+    <ClCompile Include="fgui\GearSize.cpp" />
+    <ClCompile Include="fgui\GearText.cpp" />
+    <ClCompile Include="fgui\GearXY.cpp" />
+    <ClCompile Include="fgui\GGraph.cpp" />
+    <ClCompile Include="fgui\GGroup.cpp" />
+    <ClCompile Include="fgui\GLabel.cpp" />
+    <ClCompile Include="fgui\GList.cpp" />
+    <ClCompile Include="fgui\GLoader.cpp" />
+    <ClCompile Include="fgui\GObject.cpp" />
+    <ClCompile Include="fgui\GProgressBar.cpp" />
+    <ClCompile Include="fgui\GRichText.cpp" />
+    <ClCompile Include="fgui\GSlider.cpp" />
+    <ClCompile Include="fgui\GSprite.cpp" />
+    <ClCompile Include="fgui\GText.cpp" />
+    <ClCompile Include="fgui\GTextInput.cpp" />
+    <ClCompile Include="fgui\GTransition.cpp" />
+    <ClCompile Include="fgui\GTweener.cpp" />
+    <ClCompile Include="fgui\HitTest.cpp" />
+    <ClCompile Include="fgui\Margin.cpp" />
+    <ClCompile Include="fgui\Package.cpp" />
+    <ClCompile Include="fgui\PackageManager.cpp" />
+    <ClCompile Include="fgui\PkgItem.cpp" />
+    <ClCompile Include="fgui\PlayTransitionAction.cpp" />
+    <ClCompile Include="fgui\RelationItem.cpp" />
+    <ClCompile Include="fgui\Relations.cpp" />
+    <ClCompile Include="fgui\test\TestScene.cpp" />
+    <ClCompile Include="fgui\TextFormat.cpp" />
+    <ClCompile Include="fgui\ToolSet.cpp" />
+    <ClCompile Include="fgui\TransitionData.cpp" />
+    <ClCompile Include="fgui\TweenManager.cpp" />
+    <ClCompile Include="fgui\TweenValue.cpp" />
+    <ClCompile Include="fgui\UBBParser.cpp" />
+    <ClCompile Include="fgui\UIConfig.cpp" />
+    <ClCompile Include="fgui\UIPackage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fgui\BitmapFont.h" />
+    <ClInclude Include="fgui\ByteBuffer.h" />
+    <ClInclude Include="fgui\ChangePageAction.h" />
+    <ClInclude Include="fgui\cocosext\ccExtend.h" />
+    <ClInclude Include="fgui\cocosext\ccShaderEx.h" />
+    <ClInclude Include="fgui\ComponentData.h" />
+    <ClInclude Include="fgui\ObjectData.h" />
+    <ClInclude Include="fgui\Controller.h" />
+    <ClInclude Include="fgui\ControllerAction.h" />
+    <ClInclude Include="fgui\FguiUtils.h" />
+    <ClInclude Include="fgui\FieldTypes.h" />
+    <ClInclude Include="fgui\GAnimation.h" />
+    <ClInclude Include="fgui\GButton.h" />
+    <ClInclude Include="fgui\GComponent.h" />
+    <ClInclude Include="fgui\GContainer.h" />
+    <ClInclude Include="fgui\GearAnimation.h" />
+    <ClInclude Include="fgui\GearBase.h" />
+    <ClInclude Include="fgui\GearColor.h" />
+    <ClInclude Include="fgui\GearData.h" />
+    <ClInclude Include="fgui\GearDisplay.h" />
+    <ClInclude Include="fgui\GearIcon.h" />
+    <ClInclude Include="fgui\GearLook.h" />
+    <ClInclude Include="fgui\GearSize.h" />
+    <ClInclude Include="fgui\GearText.h" />
+    <ClInclude Include="fgui\GearXY.h" />
+    <ClInclude Include="fgui\GGraph.h" />
+    <ClInclude Include="fgui\GGroup.h" />
+    <ClInclude Include="fgui\GLabel.h" />
+    <ClInclude Include="fgui\GList.h" />
+    <ClInclude Include="fgui\GLoader.h" />
+    <ClInclude Include="fgui\GObject.h" />
+    <ClInclude Include="fgui\GProgressBar.h" />
+    <ClInclude Include="fgui\GRichText.h" />
+    <ClInclude Include="fgui\GSlider.h" />
+    <ClInclude Include="fgui\GSprite.h" />
+    <ClInclude Include="fgui\GText.h" />
+    <ClInclude Include="fgui\GTextInput.h" />
+    <ClInclude Include="fgui\GTransition.h" />
+    <ClInclude Include="fgui\GTweener.h" />
+    <ClInclude Include="fgui\HitTest.h" />
+    <ClInclude Include="fgui\Margin.h" />
+    <ClInclude Include="fgui\Package.h" />
+    <ClInclude Include="fgui\PackageManager.h" />
+    <ClInclude Include="fgui\PkgItem.h" />
+    <ClInclude Include="fgui\PlayTransitionAction.h" />
+    <ClInclude Include="fgui\RelationItem.h" />
+    <ClInclude Include="fgui\Relations.h" />
+    <ClInclude Include="fgui\test\TestScene.h" />
+    <ClInclude Include="fgui\TextFormat.h" />
+    <ClInclude Include="fgui\ToolSet.h" />
+    <ClInclude Include="fgui\TransitionData.h" />
+    <ClInclude Include="fgui\TweenManager.h" />
+    <ClInclude Include="fgui\TweenValue.h" />
+    <ClInclude Include="fgui\UBBParser.h" />
+    <ClInclude Include="fgui\UIConfig.h" />
+    <ClInclude Include="fgui\UIPackage.h" />
+    <ClInclude Include="GContainer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
