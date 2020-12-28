@@ -208,7 +208,7 @@ namespace fgui {
 			}
 		}
 		else {
-			Package* pkg = getPkg(pkgName);
+			Package* pkg = getPkgByName(pkgName);
 			if (pkg) {
 				return pkg->getPkgItemByName(itemName);
 			}

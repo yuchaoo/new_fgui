@@ -96,7 +96,7 @@ namespace fgui {
 			return nullptr;
 	}
 
-	size_t FastSplitter::getTextLength()
+	int FastSplitter::getTextLength()
 	{
 		return textLength;
 	}

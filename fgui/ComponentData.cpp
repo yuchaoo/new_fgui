@@ -494,7 +494,7 @@ namespace fgui {
 		if (overflow == OverflowType::SCROLL) {
 			int savePos = buffer->position;
 			buffer->Seek(beginPos, 7);
-			
+			scrollType = (ScrollType)buffer->ReadByte();
 			ScrollBarDisplayType barDisplayType = (ScrollBarDisplayType)buffer->ReadByte();
 			int flags = buffer->ReadInt();
 			if (buffer->ReadBool()) {
@@ -531,7 +531,7 @@ namespace fgui {
 			ListItemInfo* info = new ListItemInfo();
 			const std::string* str = buffer->ReadSP();
 			if (!str || str->empty()) {
-				info->url = *str;
+				info->url = defaultItem;
 				if (info->url.empty()) {
 					buffer->position = nextPos;
 					continue;
@@ -702,15 +702,8 @@ namespace fgui {
 		buffer->Seek(beginPos, 4);
 		const std::string* str = NULL;
 		if (str = buffer->ReadSP()) {
-			placeHolder = *str;
+			this->str = *str;
 		}
-		if (str = buffer->ReadSP()) {
-
-		}
-		maxLength = buffer->ReadInt();
-
-		buffer->ReadInt();
-		bPassword = buffer->ReadBool();
 	}
 
 	void RichTextInfo::operator=(const ObjectInfo* oth) {

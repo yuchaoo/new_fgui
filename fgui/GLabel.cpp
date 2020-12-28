@@ -45,6 +45,7 @@ namespace fgui {
 
 	void GLabel::setContentSize(const cocos2d::Size& size) {
 		if (_bUpdateContentSize) {
+			Label::setContentSize(size);
 			return;
 		}
 		cocos2d::Size oldSize = getContentSize();
@@ -264,7 +265,9 @@ namespace fgui {
 	void GLabel::setFontColor(const cocos2d::Color4B& color) {
 		_textFormat->color = color;
 		if (_currentLabelType != cocos2d::Label::LabelType::BMFONT) {
-			setTextColor((_isGray ? toGrayed(color) : color));
+			cocos2d::Color4B c = (_isGray ? toGrayed(color) : color);
+			setTextColor(c);
+			setColor((cocos2d::Color3B)c);
 		}
 		else if (_bmFontCanTint) {
 			setColor((cocos2d::Color3B)(_isGray ? toGrayed(color) : color));

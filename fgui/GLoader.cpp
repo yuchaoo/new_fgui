@@ -171,6 +171,9 @@ namespace fgui {
 	}
 
 	void GLoader::updateLayout() {
+		if (!_sprite && !_animation && !_component) {
+			return;
+		}
 		cocos2d::Size size = _contentSourceSize;
 		float sx = 1.0f, sy = 1.0f, nx = 0, ny = 0;
 		const cocos2d::Size& size1 = this->getContentSize();

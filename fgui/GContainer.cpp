@@ -3,6 +3,7 @@
 #include "FguiUtils.h"
 #include "PackageManager.h"
 #include "GComponent.h"
+#include "PkgItem.h"
 using namespace cocos2d;
 
 namespace fgui {
@@ -20,7 +21,7 @@ namespace fgui {
 	,_virtualItemCount(0)
 	,_startIndex(0)
 	,_endIndex(0)
-	, _defaultItem(NULL){
+	, _pkgItem(NULL){
 		
 	}
 
@@ -121,11 +122,13 @@ namespace fgui {
 	}
 
 	void GContainer::setVirtual() {
-		if (_isVirtual || !_defaultItem) {
+		if (_isVirtual || !_pkgItem) {
 			return;
 		}
 		_isVirtual = true;
 		const cocos2d::Size& viewSize = getParent()->getContentSize();
+		const cocos2d::Size& itemSize = _pkgItem->getSize();
+
 		if (_layoutType == ListLayoutType::SINGLE_COLUMN) {
 			_columnCount = 1;
 		}
@@ -134,18 +137,18 @@ namespace fgui {
 		}
 		else if (_layoutType == ListLayoutType::FLOW_HORIZONTAL) {
 			const cocos2d::Size& size = this->getContentSize();
-			_columnCount = floor((size.width - _margin.left - _margin.right + _columnCap) / (_columnCap + _defaultItem->width));
+			_columnCount = floor((size.width - _margin.left - _margin.right + _columnCap) / (_columnCap + itemSize.width));
 		}
 		else if (_layoutType == ListLayoutType::FLOW_VERTICAL) {
 			const cocos2d::Size& size = this->getContentSize();
-			_lineCount = floor((size.height - _margin.top - _margin.bottom + _lineCap) / (_lineCap + _defaultItem->height));
+			_lineCount = floor((size.height - _margin.top - _margin.bottom + _lineCap) / (_lineCap + itemSize.height));
 		}
 
 		if (_layoutType == ListLayoutType::SINGLE_COLUMN || _layoutType == ListLayoutType::FLOW_HORIZONTAL) {
-			_displayRect.setRect(0, -_lineCap - _defaultItem->height, viewSize.width, viewSize.height + (_lineCap + _defaultItem->height) * 2);
+			_displayRect.setRect(0, -_lineCap - itemSize.height, viewSize.width, viewSize.height + (_lineCap + itemSize.height) * 2);
 		}
 		else if (_layoutType == ListLayoutType::SINGLE_ROW || _layoutType == ListLayoutType::FLOW_VERTICAL) {
-			_displayRect.setRect(-_lineCap - _defaultItem->width, 0, viewSize.width + (_columnCap + _defaultItem->width) * 2, viewSize.height);
+			_displayRect.setRect(-_lineCap - itemSize.width, 0, viewSize.width + (_columnCap + itemSize.width) * 2, viewSize.height);
 		}
 		clearAllChildren();
 		//CCDirector::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
@@ -538,7 +541,7 @@ namespace fgui {
 			return node;
 		}
 
-		cocos2d::Node* node = PackageManager::getInstance()->createObjectByURL(_defaultItemUrl);
+		cocos2d::Node* node = PackageManager::getInstance()->createNodeByUrl(_defaultItemUrl);  //PackageManager::getInstance()->createObjectByURL(_defaultItemUrl);
 		if (node) {
 			GComponent* comp = dynamic_cast<GComponent*>(node);
 			if (comp) {
@@ -569,7 +572,8 @@ namespace fgui {
 	void GContainer::setNodeUrl(const std::string& url) {
 		if (_defaultItemUrl != url) {
 			_defaultItemUrl = url;
-			_defaultItem = PackageManager::getInstance()->getPackageItemByURL(url);
+			_pkgItem = PackageManager::getInstance()->getItemByUrl(url);
+			
 			_startIndex = _endIndex = 0;
 			_virtualItemList.clear();
 			for (auto iter = _urlNodePool.begin(); iter != _urlNodePool.end(); ++iter) {
@@ -586,10 +590,11 @@ namespace fgui {
 	int GContainer::getFirstNodeIndex() {
 		cocos2d::Size size = getContentSize();
 		const cocos2d::Size& parentSize = getParent()->getContentSize();
+		const cocos2d::Size& itemSize = _pkgItem->getSize();
 		if (_layoutType == ListLayoutType::SINGLE_COLUMN || _layoutType == ListLayoutType::FLOW_HORIZONTAL) {
 			float h = size.height + getPositionY() - parentSize.height;
 			if (h > _margin.top) {
-				int index = floor((h - _margin.top - _defaultItem->height) / (_defaultItem->height + _lineCap) + 1);
+				int index = floor((h - _margin.top - itemSize.height) / (itemSize.height + _lineCap) + 1);
 				return index * _columnCount;
 			}
 			return 0;
@@ -597,7 +602,7 @@ namespace fgui {
 		else if (_layoutType == ListLayoutType::SINGLE_ROW || _layoutType == ListLayoutType::FLOW_VERTICAL) {
 			float w = -getPositionX();
 			if (w > _margin.left) {
-				int index = floor((w - _margin.left - _defaultItem->width) / (_defaultItem->width + _columnCap) + 1);
+				int index = floor((w - _margin.left - itemSize.width) / (itemSize.width + _columnCap) + 1);
 				return index * _lineCount;
 			}
 			return 0;
@@ -608,20 +613,21 @@ namespace fgui {
 
 	cocos2d::Vec2 GContainer::getNodePositionByIndex(int index) {
 		cocos2d::Size size = getContentSize();
+		const cocos2d::Size& itemSize = _pkgItem->getSize();
 		if (_layoutType == ListLayoutType::SINGLE_COLUMN || _layoutType == ListLayoutType::FLOW_HORIZONTAL) {
-			float offsetX = (size.width - _margin.left - _margin.right - _columnCount * _defaultItem->width - (_columnCount - 1) * _columnCap) / 2;
+			float offsetX = (size.width - _margin.left - _margin.right - _columnCount * itemSize.width - (_columnCount - 1) * _columnCap) / 2;
 			int row = index / _columnCount + 1;
 			int column = index % _columnCount + 1;
-			float x = _margin.left + (column - 1) * (_defaultItem->width + _columnCap) + _defaultItem->width * 0.5f;
-			float y = _margin.top + (row - 1) * (_defaultItem->height + _lineCap) + _defaultItem->height * 0.5f;
+			float x = _margin.left + (column - 1) * (itemSize.width + _columnCap) + itemSize.width * 0.5f;
+			float y = _margin.top + (row - 1) * (itemSize.height + _lineCap) + itemSize.height * 0.5f;
 			return cocos2d::Vec2(x + offsetX, size.height - y);
 		}
 		else if (_layoutType == ListLayoutType::FLOW_VERTICAL || _layoutType == ListLayoutType::SINGLE_ROW) {
-			float offsetY = (size.height - _margin.top - _margin.bottom - (_lineCount * _defaultItem->height) - (_lineCount - 1) * _lineCap) / 2;
+			float offsetY = (size.height - _margin.top - _margin.bottom - (_lineCount * itemSize.height) - (_lineCount - 1) * _lineCap) / 2;
 			int column = index / _lineCount + 1;
 			int row = index % _lineCount + 1;
-			float x = _margin.left + (column - 1) * (_defaultItem->width + _columnCap) + _defaultItem->width * 0.5f;
-			float y = _margin.top + (row - 1) * (_defaultItem->height + _lineCap) + _defaultItem->height * 0.5f;
+			float x = _margin.left + (column - 1) * (itemSize.width + _columnCap) + itemSize.width * 0.5f;
+			float y = _margin.top + (row - 1) * (itemSize.height + _lineCap) + itemSize.height * 0.5f;
 			return cocos2d::Vec2(x, size.height - y - offsetY);
 		}
 		else {
@@ -632,9 +638,10 @@ namespace fgui {
 
 	void GContainer::setNodePosition(cocos2d::Node* node, const cocos2d::Vec2& pos) {
 		const cocos2d::Size& size = getContentSize();
+		const cocos2d::Size& itemSize = _pkgItem->getSize();
 		if (_layoutType == ListLayoutType::SINGLE_COLUMN || _layoutType == ListLayoutType::FLOW_HORIZONTAL) {
-			if (pos.y - _defaultItem->height / 2 < _margin.bottom) {
-				float dh = _margin.bottom - pos.y + _defaultItem->height / 2;
+			if (pos.y - itemSize.height / 2 < _margin.bottom) {
+				float dh = _margin.bottom - pos.y + itemSize.height / 2;
 				setContentSize(cocos2d::Size(size.width, size.height + dh));
 				setPositionY(getPositionY() - dh);
 				for (auto iter = _virtualItemList.begin(); iter != _virtualItemList.end(); ++iter) {
@@ -642,8 +649,8 @@ namespace fgui {
 				}
 				node->setPosition(pos.x, pos.y + dh);
 			}
-			else if (pos.y + _defaultItem->height / 2 > size.height - _margin.top) {
-				float dh = pos.y + _defaultItem->height / 2 - size.height + _margin.top;
+			else if (pos.y + itemSize.height / 2 > size.height - _margin.top) {
+				float dh = pos.y + itemSize.height / 2 - size.height + _margin.top;
 				setContentSize(cocos2d::Size(size.width, size.height + dh));
 				node->setPosition(pos.x, pos.y);
 			}
@@ -652,8 +659,8 @@ namespace fgui {
 			}
 		}
 		else if (_layoutType == ListLayoutType::SINGLE_ROW || _layoutType == ListLayoutType::FLOW_VERTICAL) {
-			if (pos.x - _defaultItem->width / 2 < _margin.left) {
-				float dw = _margin.left - pos.x + _defaultItem->width / 2;
+			if (pos.x - itemSize.width / 2 < _margin.left) {
+				float dw = _margin.left - pos.x + itemSize.width / 2;
 				setContentSize(cocos2d::Size(size.width + dw, size.height));
 				setPositionX(getPositionX() - dw);
 				for (auto iter = _virtualItemList.begin(); iter != _virtualItemList.end(); ++iter) {
@@ -661,8 +668,8 @@ namespace fgui {
 				}
 				node->setPosition(pos.x + dw, pos.y);
 			}
-			else if (pos.x + _defaultItem->width / 2 > size.width - _margin.right) {
-				float dw = pos.x + _defaultItem->width / 2 - size.width - _margin.right;
+			else if (pos.x + itemSize.width / 2 > size.width - _margin.right) {
+				float dw = pos.x + itemSize.width / 2 - size.width - _margin.right;
 				setContentSize(cocos2d::Size(size.width + dw, size.height));
 				node->setPosition(pos.x, pos.y);
 			}
@@ -673,7 +680,7 @@ namespace fgui {
 	}
 
 	void GContainer::updateVirtualLayout() {
-		if (!_defaultItem) {
+		if (!_pkgItem) {
 			return;
 		}
 
@@ -752,11 +759,7 @@ namespace fgui {
 				if (t < rt.y) t = rt.y;
 				if (r < rt.x) r = rt.x;
 			}
-#if COCOS2D_VERSION >= 0x000301700
 			_edgeRect = cocos2d::Rect(cocos2d::Vec2(l, b), cocos2d::Size(r - l, t - b));
-#else
-			_edgeRect = cocos2d::Rect(l, b, r - l, t - b);
-#endif
 			_isEdgeDirty = false;
 		}
 		return _edgeRect;

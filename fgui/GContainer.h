@@ -70,7 +70,8 @@ namespace fgui {
 		bool _isVirtual;
 		int _virtualItemCount;
 		std::string _defaultItemUrl;
-		PackageItem* _defaultItem;
+		//PackageItem* _defaultItem;
+		PkgItem* _pkgItem;
 		Margin _margin;
 		cocos2d::Rect _displayRect;
 		std::list<cocos2d::Node*> _virtualItemList;

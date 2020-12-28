@@ -11,6 +11,7 @@
 #include "GSprite.h"
 #include "GLoader.h"
 #include "PackageManager.h"
+#include "PkgItem.h"
 
 namespace fgui {
 	USING_NS_CC;
@@ -213,6 +214,10 @@ namespace fgui {
 				_format.color = ToolSet::convertFromHtmlColor(it->second.asString().c_str());
 				_format._hasColor = true;
 			}
+			it = tagAttrValueMap.find("underline");
+			if (it != tagAttrValueMap.end()) {
+				_format.underline = true;
+			}
 		}
 		else if (strcasecmp(elementName, "br") == 0)
 		{
@@ -232,11 +237,12 @@ namespace fgui {
 			}
 
 			if (!src.empty()) {
-				PackageItem* pi = PackageManager::getInstance()->getPackageItemByURL(src);
-				if (pi)
+				//PackageItem* pi = PackageManager::getInstance()->getPackageItemByURL(src);
+				ImageItem* item = (ImageItem*)PackageManager::getInstance()->getItemByUrl(src);
+				if (item)
 				{
-					width = pi->width;
-					height = pi->height;
+					width = item->getSize().width;
+					height = item->getSize().height;
 				}
 			}
 
@@ -462,11 +468,9 @@ namespace fgui {
 	void GRichText::setup(const ObjectInfo* inf, cocos2d::Node* parent) {
 		GObject::setup(inf, parent);
 		const RichTextInfo* info = dynamic_cast<const RichTextInfo*>(inf);
+		setAutoSize(info->autoSizeType);
 		_ubbEnabled = info->bUbbEnabled;
 		setTextFormat(&(info->format));
-		if (info->autoSizeType != AutoSizeType::NONE) {
-			setAutoSize(info->autoSizeType);
-		}
 		if (!info->str.empty()) {
 			setString(info->str);
 		}
@@ -512,15 +516,6 @@ namespace fgui {
 		onContentSizeChanged(this, oldSize, size);
 	}
 
-	void GRichText::setPosition(const cocos2d::Vec2& pos) {
-		cocos2d::Vec2 oldPos = getPosition();
-		if (oldPos.equals(pos)) {
-			return;
-		}
-		Node::setPosition(pos);
-		onPositionChanged(this, oldPos, pos);
-	}
-
 	void GRichText::setPosition(float x, float y) {
 		cocos2d::Vec2 oldPos = getPosition();
 		cocos2d::Vec2 pos(x, y);
@@ -528,26 +523,6 @@ namespace fgui {
 			return;
 		}
 		Node::setPosition(x,y);
-		onPositionChanged(this, oldPos, pos);
-	}
-
-	void GRichText::setPositionX(float x) {
-		cocos2d::Vec2 oldPos = getPosition();
-		if (oldPos.x == x) {
-			return;
-		}
-		cocos2d::Vec2 pos(x, oldPos.y);
-		Node::setPositionX(x);
-		onPositionChanged(this, oldPos, pos);
-	}
-
-	void GRichText::setPositionY(float y) {
-		cocos2d::Vec2 oldPos = getPosition();
-		if (oldPos.y == y) {
-			return;
-		}
-		cocos2d::Vec2 pos(oldPos.x, y);
-		Node::setPositionY(y);
 		onPositionChanged(this, oldPos, pos);
 	}
 
@@ -588,18 +563,21 @@ namespace fgui {
 		GLabel* textRenderer = GLabel::create();
 		textRenderer->setCascadeOpacityEnabled(true);
 		textRenderer->setCascadeColorEnabled(true);
+		textRenderer->setAutoSize(AutoSizeType::BOTH);
 		textRenderer->setString(text);
 		textRenderer->setTextFormat(&format);
-		textRenderer->setAutoSize(AutoSizeType::BOTH);
+		
+		const cocos2d::Size& size = textRenderer->getContentSize();
 		textRenderer->setUserData(element);
 		return textRenderer;
 	}
 
 	GLoader* GRichText::createLoader(GRichElement* element) {
 		GLoader* loader = GLoader::create();
-		loader->setContentSize(cocos2d::Size(element->width, element->height));
 		loader->setLoadFillType(LoaderFillType::SCALE_FREE);
+		loader->setContentSize(cocos2d::Size(element->width, element->height));
 		loader->setURL(element->text);
+		loader->setAnchorPoint(cocos2d::Vec2(0,0));
 		return loader;
 	}
 
@@ -611,7 +589,7 @@ namespace fgui {
 			_curLineLeftWidth -= width;
 			return;
 		}
-		for (size_t i = text.size() - 2; i >= 0; --i) {
+		for (int i = text.size() - 2; i >= 0; --i) {
 			std::string str = getSubStringOfUTF8String(text,0, i + 1);
 			label->setString(str);
 			if (label->getContentSize().width <= _curLineLeftWidth) {
@@ -697,7 +675,9 @@ namespace fgui {
 			for (size_t j = 0; j < _lines[i].size(); j++) {
 				const cocos2d::Size& size = _lines[i][j]->getContentSize();
 				_lines[i][j]->setAnchorPoint(cocos2d::Vec2(0,0));
-				_lines[i][j]->setPosition(offsetX,offsetY - linesHeight[i] + (linesHeight[i]- size.height)/2);
+				_lines[i][j]->setIgnoreAnchorPointForPosition(false);
+				//_lines[i][j]->setPosition(offsetX,offsetY - linesHeight[i] + (linesHeight[i]- size.height)/2);
+				_lines[i][j]->setPosition(offsetX, offsetY - linesHeight[i]);
 				offsetX += size.width;
 			}
 			offsetY -= linesHeight[i];

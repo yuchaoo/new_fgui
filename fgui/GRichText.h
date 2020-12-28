@@ -92,10 +92,7 @@ namespace fgui {
 
 		virtual const cocos2d::Size& getContentSize();
 		virtual void setContentSize(const cocos2d::Size& size);
-		virtual void setPosition(const cocos2d::Vec2& pos);
 		virtual void setPosition(float x, float y);
-		virtual void setPositionX(float x);
-		virtual void setPositionY(float y);
 
 		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
 		virtual void setupAfter(ByteBuffer* buffer, int pos);

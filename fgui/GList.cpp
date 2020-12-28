@@ -335,11 +335,12 @@ namespace fgui {
 		auto& items = info->items;
 		for (size_t i = 0; i < items.size(); ++i) {
 			const std::string& url = items[i]->url.empty() ? info->defaultItem : items[i]->url;
-			if (!url.empty()) {
+			if (url.empty()) {
 				continue;
 			}
-			cocos2d::Node* obj = PackageManager::getInstance()->createObjectByURL(url);
+			cocos2d::Node* obj = PackageManager::getInstance()->createNodeByUrl(url);
 			obj->setName(items[i]->name);
+			_container->addChild(obj);
 			GComponent* gcom = dynamic_cast<GComponent*>(obj);
 			if (!gcom) {
 				continue;

@@ -9,6 +9,7 @@
 #include "Controller.h"
 #include "TweenManager.h"
 #include "GTweener.h"
+#include "GList.h"
 using namespace fgui;
 using namespace cocos2d;
 
@@ -48,7 +49,7 @@ bool TestScene::init() {
 	GComponent* comp1 = dynamic_cast<GComponent*>(node->getChildByName("n24"));
 	GProgressBar* bar = dynamic_cast<GProgressBar*>(node->getChildByName("n25"));
 
-	GButton* button1 = dynamic_cast<GButton*>(node->getChildByName("n17"));
+	/*GButton* button1 = dynamic_cast<GButton*>(node->getChildByName("n17"));
 	button1->setClickListener([button1, comp1, bar]() {
 		const cocos2d::Size& size = comp1->getContentSize();
 		GTweener* tweener = TweenManager::getInstance()->createTween();
@@ -58,14 +59,18 @@ bool TestScene::init() {
 		tweener = TweenManager::getInstance()->createTween();
 		tweener->setTarget(bar, fgui::TweenPropType::Progress);
 		tweener->toValue(0, 100, 0.5f);
-	});
+	});*/
 
-	Sprite* sprite = cocos2d::Sprite::create("res/header/icon.png");
+	GList* list = dynamic_cast<GList*>(node->getChildByName("n37"));
+	list->setVirtual();
+	list->setVirtualItemCount(100);
+
+	/*Sprite* sprite = cocos2d::Sprite::create("res/header/icon.png");
 	sprite->setPosition(300, 300);
 	cocos2d::Texture2D::TexParams param{ GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
 	sprite->getTexture()->setTexParameters(param);
 	sprite->setTextureRect(cocos2d::Rect(0, 0, 200, 300));
-	addChild(sprite);
+	addChild(sprite);*/
 
 	/*GLoader* loader = dynamic_cast<GLoader*>(node->getChildByName("n15"));
 	loader->setFillMethod(FillMethod::Radial90);

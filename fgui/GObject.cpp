@@ -204,20 +204,6 @@ namespace fgui {
 			m_nodeSelf->setContentSize(*info->size);
 		}
 
-		/*if (info->pivot) {
-			m_nodeSelf->setAnchorPoint(cocos2d::Vec2(info->pivot->x, 1 - info->pivot->y));
-		}
-		m_nodeSelf->setIgnoreAnchorPointForPosition(false);
-
-		if (info->bPivotAsAchorPoint) {
-			m_nodeSelf->setPosition(cocos2d::Vec2(info->pos.x, parentSize.height - info->pos.y));
-		}
-		else {
-			const cocos2d::Vec2& ap = m_nodeSelf->getAnchorPoint();
-			const cocos2d::Size& selfSize = m_nodeSelf->getContentSize();
-			m_nodeSelf->setPosition(cocos2d::Vec2(info->pos.x + ap.x * selfSize.width, (parentSize.height - info->pos.y) + (ap.y - 1.0f) * selfSize.height));
-		}*/
-
 		if (info->pivot) {
 			m_nodeSelf->setAnchorPoint(*info->pivot);
 			m_nodeSelf->setIgnoreAnchorPointForPosition(!info->bPivotAsAchorPoint);

@@ -17,13 +17,13 @@ namespace fgui {
 		void start(const char* data, size_t dataLength, char delimiter);
 		bool next();
 		const char* getText();
-		size_t getTextLength();
+		int getTextLength();
 		void getKeyValuePair(char* keyBuf, size_t keyBufSize, char* valueBuf, size_t valueBufSize);
 
 	private:
 		const char* data;
-		size_t dataLength;
-		size_t textLength;
+		int dataLength;
+		int textLength;
 		char delimiter;
 	};
 }
