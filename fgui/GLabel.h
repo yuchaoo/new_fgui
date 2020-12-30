@@ -1,5 +1,5 @@
 #pragma once
-#include "fgui/GObject.h"
+#include "GObject.h"
 #include "2d/CCLabel.h"
 
 namespace fgui {

@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 #include "base/ccTypes.h"
+#include "FGui.h"
 
 namespace fgui {
 

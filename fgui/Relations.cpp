@@ -5,8 +5,13 @@
 
 namespace fgui {
 
+	Relations* Relations::create(cocos2d::Node* owner) {
+		Relations* rel = new Relations(owner);
+		rel->autorelease();
+		return rel;
+	}
+
 	Relations::Relations(cocos2d::Node* owner) 
-		:handling(nullptr)
 	{
 		_owner = owner;
 	}

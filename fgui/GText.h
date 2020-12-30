@@ -1,6 +1,6 @@
 #pragma once
-#include "fgui/GObject.h"
-#include "fgui/GComponent.h"
+#include "GObject.h"
+#include "GComponent.h"
 
 namespace fgui {
 	class GLabel;
@@ -17,6 +17,7 @@ namespace fgui {
 		void setTitleColor(const cocos2d::Color4B& color);
 		void setTitleFontSize(int size);
 		void setIcon(const std::string& icon);
+	protected:
 		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* node);
 	private:

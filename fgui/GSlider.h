@@ -1,7 +1,7 @@
 #pragma once
 
-#include "fgui/GObject.h"
-#include "fgui/GComponent.h"
+#include "GObject.h"
+#include "GComponent.h"
 
 namespace fgui {
 	class GLabel;

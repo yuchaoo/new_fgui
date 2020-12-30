@@ -18,7 +18,6 @@ namespace fgui {
 		~GGroup();
 		virtual void addNode(Node* child);
 		virtual void removeNode(Node* child);
-
 		virtual void setOpacity(GLubyte opacity);
 		virtual void setVisible(bool visible);
 		virtual void setContentSize(const cocos2d::Size& contentSize);

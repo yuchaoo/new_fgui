@@ -43,10 +43,9 @@ namespace fgui {
         void remove(RelationType relationType);
         bool isEmpty() const;
         void copyFrom(const RelationItem& source);
-        
+    protected:
         void onTargetSizeChanged(cocos2d::Node* target,const cocos2d::Size& oldSize, const cocos2d::Size& newSize);
         void onTargetXYChanged(cocos2d::Node* target, const cocos2d::Vec2& oldPos, const cocos2d::Vec2& newPos);
-    public:
         void applySelfSizeChanged(const cocos2d::Size& oldSize, const cocos2d::Size& newSize);
         void applyTargetXYChanged(cocos2d::Node* target, const RelationDef& info, const cocos2d::Vec2& oldPos, const cocos2d::Vec2& newPos);
         void applyTargetSizeChanged(cocos2d::Node* target, const RelationDef& info, const cocos2d::Size& oldSize, const cocos2d::Size& newSize);
@@ -54,6 +53,7 @@ namespace fgui {
         cocos2d::Node* _owner;
         cocos2d::Node* _target;
         std::vector<RelationDef> _defs;
+        friend class Relations;
     };
 
 }

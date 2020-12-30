@@ -1,7 +1,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "ui/UIEditBox/UIEditBox.h"
-#include "fgui/GObject.h"
+#include "GObject.h"
 using namespace cocos2d::ui;
 
 
@@ -25,7 +25,7 @@ namespace fgui {
 		bool isSingleLine() const;
 		void setSingleLine(bool value);
 		void setPassword(bool value);
-
+	protected:
 		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
 		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);

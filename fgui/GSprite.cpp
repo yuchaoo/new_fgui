@@ -108,7 +108,7 @@ namespace fgui {
 		setCenterRectNormalized(Rect(0, 0, 1, 1));
 	}
 
-	void GSprite::setScale9GridWithSpace(float l, float r, float b, float t) {
+	void GSprite::setScale9SpriteWithSpace(float l, float r, float b, float t) {
 		cocos2d::Rect rt;
 		rt.origin.x = std::max(0.0f, std::min(l, _rect.size.width));
 		rt.origin.y = std::max(0.0f, std::min(b, _rect.size.height));
@@ -117,7 +117,7 @@ namespace fgui {
 		setCenterRect(rt);
 	}
 
-	void GSprite::setScale9Grid(const Rect * value)
+	void GSprite::setScale9Sprite(const Rect * value)
 	{
 		if (value == nullptr){
 			setCenterRectNormalized(Rect(0, 0, 1, 1));
@@ -294,7 +294,7 @@ namespace fgui {
 		pkg->loadItemAsset(pt);
 		setSpriteFrame(pt->spriteFrame);
 		if (pt->scale9Grid) {
-			setScale9Grid(pt->scale9Grid);
+			setScale9Sprite(pt->scale9Grid);
 		}
 	}
 
@@ -322,7 +322,7 @@ namespace fgui {
 		setSpriteFrame(spriteItem->getSpriteFrame());
 		const cocos2d::Rect* rt = spriteItem->getScale9Rect();
 		if (rt) {
-			setScale9Grid(rt);
+			setScale9Sprite(rt);
 		}
 		else if(spriteItem->isScaleByTile()){
 			Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };

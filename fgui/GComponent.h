@@ -1,7 +1,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "GObject.h"
-#include "fgui/GContainer.h"
+#include "GContainer.h"
 
 namespace fgui {
 	class GObject;
@@ -20,13 +20,14 @@ namespace fgui {
 		virtual void onEixt();
 		virtual void onEnterTransitionDidFinish() override;
 		virtual void onExitTransitionDidStart() override;
+		virtual void setContentSize(const cocos2d::Size& size);
+		virtual void setPosition(const cocos2d::Vec2& pos);
+		virtual void setPosition(float x, float y);
+		virtual void setCameraMask(unsigned short mask, bool applyChildren = true);
 
 		GController* getController(const std::string& name);
 		GController* getControllerAt(int index);
 		bool isConstructing() const { return m_constructing; }
-		virtual void setContentSize(const cocos2d::Size& size);
-		virtual void setPosition(const cocos2d::Vec2& pos);
-		virtual void setPosition(float x, float y);
 
 		cocos2d::Node* getChildById(const std::string& name);
 		cocos2d::Rect getEdgeRectangle();
@@ -37,11 +38,10 @@ namespace fgui {
 		void setAlphaThreshold(GLfloat alphaThreshold);
 		bool isStencilInverted() const;
 		void setStencilInverted(bool inverted);
-		void setCameraMask(unsigned short mask, bool applyChildren = true);
 		void setHitArea(IHitTest* value);
 
 		GTransition* getTransition(const std::string& name);
-		void onTransionPositionChanged(cocos2d::Node* node, float dx, float dy);
+		virtual void onTransionPositionChanged(cocos2d::Node* node, float dx, float dy);
 
 		virtual void setGrayed(bool value);
 		virtual void setBlendMode(BlendMode blendMode);

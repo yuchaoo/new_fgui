@@ -1,7 +1,12 @@
 #include "FguiUtils.h"
 #include "GObject.h"
+#include "FGui.h"
 
 namespace fgui {
+	const char* getFguiVersion() {
+		return "1.1.0";
+	}
+
 	cocos2d::Vec2 coordF2C(const cocos2d::Vec2& p, cocos2d::Node* node) {
 		if (!node) {
 			return p;

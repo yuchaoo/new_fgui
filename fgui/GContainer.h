@@ -1,6 +1,6 @@
 #pragma once
 #include "cocos2d.h"
-#include "fgui/GObject.h"
+#include "GObject.h"
 
 using namespace cocos2d;
 
@@ -39,7 +39,6 @@ namespace fgui {
 		void setVirtualItemCount(int count);
 		int getVirtualItemCount();
 		
-
 		virtual void visit(Renderer* renderer, const Mat4& parentTransform, uint32_t parentFlags);
 		const cocos2d::Rect& getEdgeRectangle();
 		void updateCommonLayout();
@@ -70,7 +69,6 @@ namespace fgui {
 		bool _isVirtual;
 		int _virtualItemCount;
 		std::string _defaultItemUrl;
-		//PackageItem* _defaultItem;
 		PkgItem* _pkgItem;
 		Margin _margin;
 		cocos2d::Rect _displayRect;

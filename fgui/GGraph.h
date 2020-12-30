@@ -1,5 +1,5 @@
 #pragma once
-#include "fgui/GObject.h"
+#include "GObject.h"
 #include "base/ccTypes.h"
 
 namespace cocos2d {

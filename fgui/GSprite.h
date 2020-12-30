@@ -27,8 +27,8 @@ namespace fgui {
 		virtual void onExit();
 
 		void clearContent();
-		void setScale9GridWithSpace(float l, float r, float b, float t);
-		void setScale9Grid(const cocos2d::Rect* value);
+		void setScale9SpriteWithSpace(float l, float r, float b, float t);
+		void setScale9Sprite(const cocos2d::Rect* value);
 		FillMethod getFillMethod() const { return _fillMethod; }
 		void setFillMethod(FillMethod value);
 

@@ -1,0 +1,43 @@
+#pragma once
+
+
+#include "FguiUtils.h"
+#include "BitmapFont.h"
+#include "ByteBuffer.h"
+#include "ChangePageAction.h"
+#include "Controller.h"
+#include "ControllerAction.h"
+#include "FieldTypes.h"
+#include "GTransition.h"
+#include "GTweener.h"
+#include "HitTest.h"
+#include "Margin.h"
+#include "PlayTransitionAction.h"
+#include "Relations.h"
+#include "RelationItem.h"
+#include "TextFormat.h"
+#include "ToolSet.h"
+#include "TweenManager.h"
+#include "TweenValue.h"
+#include "GTweener.h"
+#include "UIConfig.h"
+#include "UIPackage.h"
+#include "GComponent.h"
+#include "GButton.h"
+#include "GSlider.h"
+#include "GAnimation.h"
+#include "GContainer.h"
+#include "GGroup.h"
+#include "GGraph.h"
+#include "GLabel.h"
+#include "GList.h"
+#include "GLoader.h"
+#include "GProgressBar.h"
+#include "GRichText.h"
+#include "GSprite.h"
+#include "GText.h"
+#include "GTextInput.h"
+
+namespace fgui {
+	const char* getFguiVersion();
+}

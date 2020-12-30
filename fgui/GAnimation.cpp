@@ -1,5 +1,5 @@
 #include "fgui/GAnimation.h"
-#include "ccShaderEx.h"
+#include "cocosext/ccShaderEx.h"
 #include "cocos2d.h"
 #include "Package.h"
 #include "PkgItem.h"

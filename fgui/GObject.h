@@ -55,6 +55,8 @@ namespace fgui {
 		void setTouchMovedCallback(std::function<void(cocos2d::Touch*, cocos2d::Event*)> handler);
 		void setTouchEndedCallback(std::function<void(cocos2d::Touch*, cocos2d::Event*)> handler);
 		void setTouchCancelCallback(std::function<void(cocos2d::Touch*, cocos2d::Event*)> handler);
+
+		virtual void setupOverflow(OverflowType overflow);
 	protected:
 		GObject();
 		~GObject();
@@ -66,8 +68,7 @@ namespace fgui {
 		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setupExtend(ByteBuffer* buffer);
 		virtual void setupScroll(ByteBuffer* buffer);
-
-		virtual void setupOverflow(OverflowType overflow);
+		
 		GearBase* getGear(int index);
 		void updateGear(int index);
 		void updateGearFromRelations(int index, float dx, float dy);
