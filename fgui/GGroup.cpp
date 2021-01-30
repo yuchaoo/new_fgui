@@ -1,5 +1,6 @@
 #include "GGroup.h"
 #include "FguiUtils.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	GGroup::GGroup() 
@@ -150,20 +151,6 @@ namespace fgui {
 		setContentSize(cocos2d::Size(maxx - minx,maxy - miny));
 		setPosition(minx, maxy);
 		_isLayouting = false;
-	}
-
-	void GGroup::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, pos, parent);
-		buffer->Seek(pos, 5);
-
-		_layout = (GroupLayoutType)buffer->ReadByte();
-		_lineGap = buffer->ReadInt();
-		_columnGap = buffer->ReadInt();
-	}
-
-	void GGroup::setupAfter(ByteBuffer* buffer, int pos) {
-		GObject::setupAfter(buffer, pos);
-		setVisible(isVisible());
 	}
 
 	void GGroup::setup(const ObjectInfo* inf, cocos2d::Node* parent) {

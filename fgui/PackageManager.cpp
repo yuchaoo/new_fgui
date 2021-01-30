@@ -18,64 +18,6 @@ namespace fgui {
 		loadShaderEx();
 	}
 
-	UIPackage* PackageManager::getPackageById(const std::string& id) {
-		auto iter = m_pkgById.find(id);
-		return iter == m_pkgById.end() ? NULL : iter->second;
-	}
-
-	UIPackage* PackageManager::getPackageByName(const std::string& name) {
-		auto iter = m_pkgByName.find(name);
-		return iter == m_pkgByName.end() ? NULL : iter->second;
-	}
-
-	UIPackage* PackageManager::loadPackage(const std::string& name, const std::string& filepath) {
-		auto iter = m_pkgByName.find(name);
-		if (iter != m_pkgByName.end()) {
-			return iter->second;
-		}
-		UIPackage* pkg = createPackage(filepath);
-		if (pkg) {
-			if (pkg->getName() != name) {
-				CCLOG("The name(%s) is not same as package name(%s)",name.c_str(),pkg->getName().c_str());
-			}
-			auto it = m_pkgByName.find(pkg->getName());
-			if (it == m_pkgByName.end()) {
-				m_packages.push_back(pkg);
-				m_pkgById[pkg->getId()] = pkg;
-				m_pkgByName[pkg->getName()] = pkg;
-				pkg->retain();
-			}
-		}
-		return pkg;
-	}
-
-	UIPackage* PackageManager::createPackage(const std::string& filepath) {
-		UIPackage* pkg = UIPackage::create();
-		if (pkg->loadPackage(filepath)) {
-			return pkg;
-		}
-		return NULL;
-	}
-
-	void PackageManager::removePackage(const std::string& name) {
-		auto iter = m_pkgByName.find(name);
-		if (iter != m_pkgByName.end()) {
-			auto it = m_pkgById.find(iter->second->getId());
-			if (it != m_pkgById.end()) {
-				m_pkgById.erase(it);
-			}
-
-			for (auto it = m_packages.begin(); it != m_packages.end(); ++it) {
-				if (*it == iter->second) {
-					m_packages.erase(it);
-					break;
-				}
-			}
-			iter->second->release();
-			m_pkgByName.erase(iter);
-		}
-	}
-
 	bool PackageManager::parseURL(const std::string& url, std::string& pkgName, std::string& itemName, bool& isById) {
 		if (url.compare(0, 5, "ui://")) {
 			CCLOG("Parse the url failed, url:%s",url.c_str());
@@ -96,70 +38,6 @@ namespace fgui {
 			isById = false;
 		}
 		return true;
-	}
-
-	cocos2d::Node* PackageManager::createObject(const std::string& pkgName, const std::string& itemName) {
-		UIPackage* pkg = getPackageByName(pkgName);
-		if (!pkg) {
-			CCLOG("Cannot find the package:%s", pkgName.c_str());
-			return NULL;
-		}
-		return (cocos2d::Node*)pkg->createObjectByName(itemName);
-	}
-
-	cocos2d::Node* PackageManager::createObjectByURL(const std::string& url) {
-		std::string pkgStr, itemStr;
-		bool isById = false;
-		if (parseURL(url, pkgStr, itemStr, isById)) {
-			if (isById) {
-				UIPackage* pkg = getPackageById(pkgStr);
-				if (pkg) {
-					cocos2d::Node* obj = pkg->createObjectById(itemStr);
-					return obj;
-				}
-			}
-			else {
-				UIPackage* pkg = getPackageByName(pkgStr);
-				if (pkg) {
-					cocos2d::Node* obj = pkg->createObjectByName(itemStr);
-					return obj;
-				}
-			}
-		}
-		return NULL;
-	}
-
-	PackageItem* PackageManager::getPackageItemByURL(const std::string& url) {
-		std::string pkgStr, itemStr;
-		bool isById = false;
-		if (parseURL(url, pkgStr, itemStr, isById)) {
-			if (isById) {
-				UIPackage* pkg = getPackageById(pkgStr);
-				if (pkg) {
-					PackageItem* pt = pkg->getPackageItemById(itemStr);
-					if (pt) {
-						pkg->loadItemAsset(pt);
-					}
-					else {
-						cocos2d::log("can not fint the url:%s",url.c_str());
-					}
-					return pt;
-				}
-			}
-			else {
-				UIPackage* pkg = getPackageByName(pkgStr);
-				if (pkg) {
-					PackageItem* pt = pkg->getPackageItemByName(itemStr);
-					if (pt) {
-						pkg->loadItemAsset(pt);
-					}else{
-						cocos2d::log("can not fint the url:%s", url.c_str());
-					}
-					return pt;
-				}
-			}
-		}
-		return NULL;
 	}
 
 	Package* PackageManager::getPkg(const std::string& id) {

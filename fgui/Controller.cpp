@@ -3,6 +3,7 @@
 #include "ToolSet.h"
 #include "ByteBuffer.h"
 #include "ControllerAction.h"
+#include "ObjectData.h"
 
 namespace fgui {
 	GController::GController() :

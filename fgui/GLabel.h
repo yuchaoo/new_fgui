@@ -50,8 +50,6 @@ namespace fgui {
 		virtual void updateBMFontScale() override;
 	protected:
 		virtual void updateContent();
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 	private:
 		GLabel();

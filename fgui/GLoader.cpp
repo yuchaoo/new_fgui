@@ -1,11 +1,10 @@
 #include "GLoader.h"
-#include "UIPackage.h"
 #include "GComponent.h"
-
 #include "ByteBuffer.h"
 #include "GSprite.h"
 #include "PackageManager.h"
 #include "GAnimation.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	USING_NS_CC;
@@ -439,51 +438,6 @@ namespace fgui {
 		}
 		if (_animation) {
 			_animation->setHSVValue(hue, saturation, brightness, contrast);
-		}
-	}
-
-	void GLoader::setupBefore(ByteBuffer* buffer, int beginPos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, beginPos, parent);
-		buffer->Seek(beginPos, 5);
-		_url = buffer->ReadS();
-
-		_align = (TextHAlignment)buffer->ReadByte();
-		_verticalAlign = (TextVAlignment)buffer->ReadByte();
-		_fill = (LoaderFillType)buffer->ReadByte();
-		_shrinkOnly = buffer->ReadBool();
-		_autoSize = buffer->ReadBool();
-		buffer->ReadBool();//_showErrorSign
-		_playing = buffer->ReadBool();
-		_frame = buffer->ReadInt();
-
-		if (buffer->ReadBool()) {
-			setColor((Color3B)buffer->ReadColor());
-		}
-			
-		_fillMethod = (FillMethod)buffer->ReadByte();
-		_fillOrigin = (FillOrigin)buffer->ReadByte();
-		_isFillClockwise = buffer->ReadBool();
-		_fillAmount = buffer->ReadFloat();
-
-		loadContent();
-	}
-
-	void GLoader::setupAfter(ByteBuffer* buffer, int pos) {
-		GObject::setupAfter(buffer, pos);
-		if (_sprite) {
-			_sprite->setOpacity(getOpacity());
-		}
-		if (_component) {
-			if (isCascadeOpacityEnabled()) {
-				_component->setCascadeOpacityEnabled(true);
-			}
-			_component->setOpacity(getOpacity());
-		}
-		if (_fillMethod != FillMethod::None && _sprite) {
-			_sprite->setFillMethod(_fillMethod);
-			_sprite->setFillOrigin(_fillOrigin);
-			_sprite->setFillClockwise(_isFillClockwise);
-			_sprite->setFillAmount(_fillAmount);
 		}
 	}
 

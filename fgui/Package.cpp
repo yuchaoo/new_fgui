@@ -217,7 +217,7 @@ namespace fgui {
 		obj->constructFromItem(this, item);
 		CompItem* compItem = dynamic_cast<CompItem*>(item);
 		if (compItem) {
-			obj->setup(compItem->getDataInfo(), NULL);
+			obj->setup((const ObjectInfo*)compItem->getDataInfo(), NULL);
 		}
 		return node;
 	}

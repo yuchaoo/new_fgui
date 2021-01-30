@@ -38,7 +38,6 @@ namespace fgui {
 
 	bool GContainer::init() {
 		Node::init();
-		constructFromResource(NULL,NULL);
 		this->setAnchorPoint(cocos2d::Vec2(0.0f, 0.0f));
 		return true;
 	}

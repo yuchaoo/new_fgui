@@ -1,6 +1,5 @@
 #pragma once
 #include "cocos2d.h"
-#include "UIPackage.h"
 #include "Margin.h"
 #include "FieldTypes.h"
 #include <vector>
@@ -15,6 +14,7 @@ namespace fgui {
 	class RelationObserver;
 	class Package;
 	class PkgItem;
+	struct ObjectInfo;
 
 	typedef std::function<void(cocos2d::Node*)> NodeEECallback;
 	typedef std::function<void(cocos2d::Node*, const cocos2d::Size& newSize, const cocos2d::Size& oldSize)> NodeSizeCallback;
@@ -23,8 +23,6 @@ namespace fgui {
 
 	class GObject {
 	public:
-		UIPackage* getPackage() { return _uiPackage; }
-		PackageItem* getPackageItem() { return _pkgItem; }
 		const std::string& getId() const { return _id; }
 		ObjectType getObjType() const { return _objType; }
 
@@ -60,14 +58,8 @@ namespace fgui {
 	protected:
 		GObject();
 		~GObject();
-		virtual void constructFromResource(UIPackage* pkg, PackageItem* pt);
 		virtual void constructFromItem(Package* pkg, PkgItem* item);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
-
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
-		virtual void setupExtend(ByteBuffer* buffer);
-		virtual void setupScroll(ByteBuffer* buffer);
 		
 		GearBase* getGear(int index);
 		void updateGear(int index);
@@ -82,8 +74,6 @@ namespace fgui {
 		virtual void onPositionChanged(cocos2d::Node* target, const cocos2d::Vec2& oldPos, const cocos2d::Vec2& newPos);
 		void clearAllRelationObserver();
 	protected:
-		UIPackage* _uiPackage;
-		PackageItem* _pkgItem;
 		cocos2d::Node* m_nodeSelf;
 
 		std::string _id;

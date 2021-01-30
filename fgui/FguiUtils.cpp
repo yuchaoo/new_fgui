@@ -1,6 +1,7 @@
 #include "FguiUtils.h"
 #include "GObject.h"
 #include "FGui.h"
+#include "ObjectData.h"
 
 namespace fgui {
 	const char* getFguiVersion() {

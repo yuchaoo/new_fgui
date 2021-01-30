@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "UIPackage.h"
 
 namespace fgui {
 	class BitmapFont : public cocos2d::Font

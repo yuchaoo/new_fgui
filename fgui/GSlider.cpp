@@ -1,8 +1,9 @@
-#include "fgui/GSlider.h"
-#include "fgui/GLabel.h"
-#include "fgui/GSprite.h"
-#include "fgui/GLoader.h"
-#include "fgui/FguiUtils.h"
+#include "GSlider.h"
+#include "GLabel.h"
+#include "GSprite.h"
+#include "GLoader.h"
+#include "FguiUtils.h"
+#include "ComponentData.h"
 #include <algorithm>
 
 namespace fgui {
@@ -39,46 +40,6 @@ namespace fgui {
 	void GSlider::setPercent(float percent) {
 		_value = percent * _max;
 		update();
-	}
-
-	void GSlider::setupAfter(ByteBuffer* buffer, int pos) {
-		GComponent::setupAfter(buffer, pos);
-		if (!buffer->Seek(pos, 6)) {
-			update();
-			return;
-		}
-
-		if ((ObjectType)buffer->ReadByte() != _pkgItem->objectType) {
-			update();
-			return;
-		}
-
-		_value = buffer->ReadInt();
-		_max = buffer->ReadInt();
-
-		update();
-	}
-
-	void GSlider::setupExtend(ByteBuffer* buffer) {
-		_titleType = (ProgressTitleType)buffer->ReadByte();
-		_reverse = buffer->ReadBool();
-
-		_title = dynamic_cast<GLabel*>(getChildByName("title"));
-		_barH = getChildByName("bar");
-		_barV = getChildByName("bar_v");
-		_grip = getChildByName("grip");
-
-		if (_barH != nullptr) {
-			_barMaxWidth = _barH->getContentSize().width;
-		}
-		if (_barV != nullptr) {
-			_barMaxHeight = _barV->getContentSize().height;
-		}
-		GObject* obj = dynamic_cast<GObject*>(_grip);
-		if (obj) {
-			obj->setTouchable(true);
-			obj->setTouchMovedCallback(std::bind(&GSlider::onTouchMoved, this, std::placeholders::_1, std::placeholders::_2));
-		}
 	}
 
 	void GSlider::setup(const ObjectInfo* inf, cocos2d::Node* parent) {

@@ -2,6 +2,7 @@
 #include "Controller.h"
 #include "GComponent.h"
 #include "ByteBuffer.h"
+#include "ObjectData.h"
 
 namespace fgui {
 

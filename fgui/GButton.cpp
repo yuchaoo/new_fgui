@@ -2,6 +2,7 @@
 #include "GLabel.h"
 #include "GLoader.h"
 #include "Controller.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	const std::string GButton::UP = "up";
@@ -64,89 +65,6 @@ namespace fgui {
 		if (m_titleTxt) {
 			m_titleTxt->setFontSize(fontSize);
 		}
-	}
-	
-
-	void GButton::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GComponent::setupBefore(buffer, pos, parent);
-		m_initScaleX = getScaleX();
-		m_initScaleY = getScaleY();
-	}
-
-	void GButton::setupAfter(ByteBuffer* buffer, int pos) {
-		GComponent::setupAfter(buffer, pos);
-
-		if (!buffer->Seek(pos, 6))
-			return;
-
-		ObjectType objType = (ObjectType)buffer->ReadByte();
-		if (objType != _pkgItem->objectType)
-			return;
-
-		const std::string* str;
-
-		if ((str = buffer->ReadSP())) {
-			setTitle(*str);
-		}
-		if ((str = buffer->ReadSP())) {
-			setSelectedTitle(*str);
-		}
-		if ((str = buffer->ReadSP())) {
-			setIcon(*str);
-		}
-		if ((str = buffer->ReadSP())) {
-			setSelectedIcon(*str);
-		}
-		if (buffer->ReadBool()) {
-			setTitleColor(buffer->ReadColor());
-		}
-			
-		int iv = buffer->ReadInt();
-		if (iv != 0) {
-			setTitleFontSize(iv);
-		}
-			
-		iv = buffer->ReadShort();
-		if (iv >= 0) {
-			GComponent* parent = dynamic_cast<GComponent*>(_parent);
-			m_relatedController = parent->getControllerAt(iv);
-		}
-		
-		m_relatePageId = buffer->ReadS();
-
-		std::string sound;
-		buffer->ReadS(sound);
-		if (buffer->ReadBool()) {
-			float soundVolumeScale = buffer->ReadFloat();
-		}
-
-		setSelected(buffer->ReadBool());
-	}
-
-	void GButton::setupExtend(ByteBuffer* buffer) {
-		if (!buffer->Seek(0, 6)) {
-			return;
-		}
-		m_mode = (ButtonMode)buffer->ReadByte();
-		buffer->ReadS(m_sound);
-		m_soundVolumeScale = buffer->ReadFloat();
-		m_downEffect = buffer->ReadByte();
-		m_downEffectValue = buffer->ReadFloat();
-
-		m_buttonController = getController("button");
-		m_titleTxt = (fgui::GLabel*)getChildByName("title");
-		m_iconLoader = (fgui::GLoader*)getChildByName("icon");
-		if (m_titleTxt) {
-			m_title = m_titleTxt->getString();
-		}
-		if (m_iconLoader) {
-			m_iconURL = m_iconLoader->getURL();
-		}
-		if (m_mode == ButtonMode::COMMON) {
-			setState(UP);
-		}
-
-		setTouchable(true);
 	}
 
 	void GButton::setup(const ObjectInfo* inf, cocos2d::Node* parent) {

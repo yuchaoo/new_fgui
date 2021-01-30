@@ -1,5 +1,6 @@
 #include "GGraph.h"
-#include "fgui/FguiUtils.h"
+#include "FguiUtils.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	GGraph::GGraph()
@@ -71,20 +72,6 @@ namespace fgui {
 		if (_lineSize != size) {
 			_lineSize = size;
 			_dirty = true;
-		}
-	}
-
-	void GGraph::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, pos, parent);
-		buffer->Seek(pos, 5);
-
-		_type = buffer->ReadByte();
-		if (_type != 0){
-			_lineSize = buffer->ReadInt();
-			_lineColor = (cocos2d::Color4F)buffer->ReadColor();
-			_fillColor = (cocos2d::Color4F)buffer->ReadColor();
-
-			updateShape();
 		}
 	}
 

@@ -94,10 +94,8 @@ namespace fgui {
 		virtual void setContentSize(const cocos2d::Size& size);
 		virtual void setPosition(float x, float y);
 
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
-		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 	protected:
+		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 		virtual bool init() override;
 		void updateFormatText();
 		void addNewLine();

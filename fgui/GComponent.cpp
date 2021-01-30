@@ -1,5 +1,4 @@
 #include "GComponent.h"
-#include "UIPackage.h"
 #include "PackageManager.h"
 #include "HitTest.h"
 #include "Controller.h"
@@ -14,6 +13,7 @@
 #include "GLoader.h"
 #include "PkgItem.h"
 #include "Package.h"
+#include "ComponentData.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #define CC_CLIPPING_NODE_OPENGLES 0
@@ -169,30 +169,6 @@ namespace fgui {
 				obj->setBlendMode(blendMode);
 			}
 		}
-	}
-
-	void GComponent::setupScroll(ByteBuffer* buffer) {
-		_scrollType = (ScrollType)buffer->ReadByte();
-		ScrollBarDisplayType scrollBarDisplay = (ScrollBarDisplayType)buffer->ReadByte();
-		int flags = buffer->ReadInt();
-		if (buffer->ReadBool()){
-			int top = buffer->ReadInt();
-			int bottom = buffer->ReadInt();
-			int left = buffer->ReadInt();
-			int right = buffer->ReadInt();
-		}
-		const std::string& vtScrollBarRes = buffer->ReadS();
-		const std::string& hzScrollBarRes = buffer->ReadS();
-		const std::string& headerRes = buffer->ReadS();
-		const std::string& footerRes = buffer->ReadS();
-
-		_isPageMode = (flags & 8) != 0;
-		if ((flags & 64) != 0)
-			_bouncebackEffect = true;
-		else if ((flags & 128) != 0)
-			_bouncebackEffect = false;
-		_isInertiaEnabled = (flags & 256) == 0;
-		bool isClipEnabled = (flags & 512) == 0;
 	}
 
 	void GComponent::setupOverflow(OverflowType overflow) {
@@ -422,13 +398,6 @@ namespace fgui {
 		const ComponentInfo* info = dynamic_cast<const ComponentInfo*>(inf);
 		this->setName(info->name);
 
-		/*if (info->size) {
-			m_nodeSelf->setContentSize(*info->size);
-		}
-		else {
-			m_nodeSelf->setContentSize(cocos2d::Size(info->width, info->height));
-		}*/
-
 		m_nodeSelf->setContentSize(cocos2d::Size(info->width, info->height));
 
 		if (info->pivot) {
@@ -569,213 +538,6 @@ namespace fgui {
 
 		applyAllControllers();
 		m_constructing = false;
-	}
-
-	void GComponent::constructFromResource(UIPackage* pkg, PackageItem* pt) {
-		m_constructing = true;
-		GObject::constructFromResource(pkg, pt);
-		ByteBuffer* buffer = pt->rawData;
-		if (!buffer) {
-			return;
-		}
-
-		buffer->Seek(0, 0);
-
-		cocos2d::Size contentSize;
-		contentSize.width = buffer->ReadInt();
-		contentSize.height = buffer->ReadInt();
-		this->setContentSize(contentSize);
-
-		if (buffer->ReadBool()) {
-			_minSize.width = buffer->ReadInt();
-			_maxSize.width = buffer->ReadInt();
-			_minSize.height = buffer->ReadInt();
-			_maxSize.height = buffer->ReadInt();
-		}
-		if (buffer->ReadBool()) {
-			cocos2d::Vec2 ap;
-			ap.x = buffer->ReadFloat();
-			ap.y = 1.0f - buffer->ReadFloat();
-			this->setAnchorPoint(ap);
-			_isPivotAsAchorPoint = buffer->ReadBool();
-			this->setIgnoreAnchorPointForPosition(false);
-		}
-		if (buffer->ReadBool()) {
-			_margin.top = buffer->ReadInt();
-			_margin.bottom = buffer->ReadInt();
-			_margin.left = buffer->ReadInt();
-			_margin.right = buffer->ReadInt();
-		}
-
-		OverflowType overflow = (OverflowType)buffer->ReadByte();
-		setupOverflow(overflow);
-		if (overflow == OverflowType::SCROLL) {
-			int savedPos = buffer->position;
-			buffer->Seek(0, 7);
-			setupScroll(buffer);
-			buffer->position = savedPos;
-		}
-
-		if (buffer->ReadBool()) {
-			buffer->Skip(8);
-		}
-
-		buffer->Seek(0, 1);
-		int controllerCount = buffer->ReadShort();
-		for (int i = 0; i < controllerCount; ++i) {
-			int nextPos = buffer->ReadShort();
-			nextPos += buffer->position;
-
-			GController* controller = new GController();
-			m_controllers.push_back(controller);
-			controller->setParent(this);
-			controller->setup(buffer);
-
-			buffer->position = nextPos;
-		}
-
-		buffer->Seek(0, 2);
-		GObject* child = NULL;
-		PackageManager* pkgMgr = PackageManager::getInstance();
-		int childCount = buffer->ReadShort();
-		std::vector<GObject*> children(childCount);
-
-		for (int i = 0; i < childCount; ++i) {
-			int dataLen = buffer->ReadShort();
-			int curPos = buffer->position;
-			buffer->Seek(curPos, 0);
-
-			ObjectType type = (ObjectType)buffer->ReadByte();
-			const std::string& src = buffer->ReadS();
-			const std::string& pkgId = buffer->ReadS();
-
-			UIPackage* childPkg = pkgId.empty() ? pt->owner : pkgMgr->getPackageById(pkgId);
-			PackageItem* childPt = src.empty() ? NULL : childPkg->getPackageItemById(src);
-			if (!src.empty() && !childPt) {
-				cocos2d::log("the item can not find , name:%s",src.c_str());
-				CCASSERT(false, "check the item");
-				return;
-			}
-			if (childPkg && childPt) {
-				child = dynamic_cast<GObject*>( childPkg->createObjectByType(childPt->objectType));
-				child->constructFromResource(childPkg, childPt);
-			}
-			else {
-				child = dynamic_cast<GObject*>(childPkg->createObjectByType(type));
-				child->constructFromResource(childPkg, childPt);
-			}
-			child->setupBefore(buffer, curPos, this);
-			cocos2d::Node* childNode = dynamic_cast<cocos2d::Node*>(child);
-			CCASSERT(childNode, "the component is not CCNode");
-			this->addChild(childNode);
-
-			buffer->position = curPos + dataLen;
-			children[i] = child;
-		}
-
-		//¹ØÁª
-		buffer->Seek(0, 3);
-		_relations->setup(buffer, true);
-
-		buffer->Seek(0, 2);
-		buffer->Skip(2);
-
-		for (int i = 0; i < childCount; ++i) {
-			int nextPos = buffer->ReadShort();
-			nextPos += buffer->position;
-			buffer->Seek(buffer->position, 3);
-
-			GObject* childObj = children[i];
-			childObj->_relations->setup(buffer, false);
-			buffer->position = nextPos;
-		}
-
-		buffer->Seek(0, 2);
-		buffer->Skip(2);
-
-		for (int i = 0; i < childCount; i++){
-			int nextPos = buffer->ReadShort();
-			nextPos += buffer->position;
-			child = children[i];
-			child->setupAfter(buffer, buffer->position);
-			buffer->position = nextPos;
-		}
-
-		buffer->Seek(0, 4);
-		buffer->Skip(2);
-
-		bool isVisible = buffer->ReadBool();
-		this->setVisible(isVisible);
-
-		int maskId = buffer->ReadShort();
-		if (maskId != -1) {
-			bool inverted = buffer->ReadBool();
-			cocos2d::Node* comp = dynamic_cast<cocos2d::Node*>(children[maskId]);
-			setStencil(comp);
-			setStencilInverted(inverted);
-		}
-
-		const std::string& hitTestId = buffer->ReadS();
-		if (!hitTestId.empty()) {
-			for (size_t i = 0; i < children.size(); ++i) {
-				PackageItem* pt = children[i]->_pkgItem;
-				if (pt && pt->id == hitTestId) {
-					cocos2d::Node* node = dynamic_cast<cocos2d::Node*>(children[i]);
-					cocos2d::Vec2 p = getPointWithAnchorPoint(node, 0.0f, 0.0f);
-					setHitArea(new PixelHitTest(pt->pixelHitTestData, p.x, p.y));
-					break;
-				}
-			}
-			PackageItem* pi = pkg->getPackageItemById(hitTestId);
-			if (pi && pi->pixelHitTestData) {
-				int i1 = buffer->ReadInt();
-				int i2 = contentSize.height - buffer->ReadInt();
-			}
-		}
-
-		//±ä»»
-		buffer->Seek(0, 5);
-		int transitionCount = buffer->ReadShort();
-		for (int i = 0; i < transitionCount; ++i) {
-			int nextPos = buffer->ReadShort();
-			nextPos += buffer->position;
-
-			GTransition* trans = new GTransition(this);
-			trans->setup(buffer);
-			_transitions.push_back(trans);
-			buffer->position = nextPos;
-		}
-		if (pt->objectType != ObjectType::COMPONENT) {
-			setupExtend(buffer);
-		}
-
-		applyAllControllers();
-		m_constructing = false;
-	}
-
-	void GComponent::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, pos,parent);
-	}
-
-	void GComponent::setupAfter(ByteBuffer* buffer, int beginPos) {
-		GObject::setupAfter(buffer, beginPos);
-		buffer->Seek(beginPos, 4);
-
-		int pageController = buffer->ReadShort();
-
-		int cnt = buffer->ReadShort();
-		for (int i = 0; i < cnt; i++) {
-			const std::string& controllerName = buffer->ReadS();
-			GController* cc = getController(controllerName);
-			const std::string& pageId = buffer->ReadS();
-			if (cc) {
-				cc->setSelectedPageId(pageId);
-			}	
-		}
-	}
-
-	void GComponent::setupExtend(ByteBuffer* buffer) {
-
 	}
 
 	void GComponent::visit(cocos2d::Renderer* renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags) {

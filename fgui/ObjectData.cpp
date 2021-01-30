@@ -1,6 +1,5 @@
 #include "ObjectData.h"
 #include "GearData.h"
-#include "UIPackage.h"
 #include "ComponentData.h"
 
 namespace fgui {

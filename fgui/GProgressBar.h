@@ -14,14 +14,13 @@ namespace fgui {
 		GProgressBar();
 		~GProgressBar();
 		void setTitleType(ProgressTitleType value);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
-		virtual void setupExtend(ByteBuffer* buffer);
-		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 		void setValue(double value);
 		void setMax(double value);
 		void setIsReverse(bool reverse);
 		GTweener* tweenValue(double value, float duration);
 		void update(double newValue);
+	protected:
+		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 	private: 
 		ProgressTitleType _titleType;
 		bool _reverse;

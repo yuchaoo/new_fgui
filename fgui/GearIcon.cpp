@@ -3,6 +3,7 @@
 #include "ByteBuffer.h"
 #include "GLoader.h"
 #include "Controller.h"
+#include "GearData.h"
 
 namespace fgui {
 

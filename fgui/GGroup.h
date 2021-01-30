@@ -26,8 +26,6 @@ namespace fgui {
 		void setGap(int lineGap, int columnGap);
 		void setBgVisible(bool bVisible);
 	protected:
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 	private:
 		GroupLayoutType _layout;

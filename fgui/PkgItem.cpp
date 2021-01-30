@@ -5,6 +5,7 @@
 #include "HitTest.h"
 #include "renderer/CCTexture2D.h"
 #include "BitmapFont.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	PkgItem::PkgItem()

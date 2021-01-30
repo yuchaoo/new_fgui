@@ -1,7 +1,9 @@
-#include "fgui/GText.h"
-#include "fgui/GLabel.h"
-#include "fgui/GTextInput.h"
-#include "fgui/GLoader.h"
+#include "GText.h"
+#include "GLabel.h"
+#include "GTextInput.h"
+#include "GLoader.h"
+#include "TextFormat.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	GText::GText()
@@ -47,58 +49,6 @@ namespace fgui {
 	void GText::setIcon(const std::string& icon) {
 		if (_icon) {
 			_icon->setURL(icon);
-		}
-	}
-
-	void GText::setupAfter(ByteBuffer* buffer, int pos) {
-		GComponent::setupAfter(buffer, pos);
-		_title = dynamic_cast<GLabel*>(getChildByName("title"));
-		_icon = dynamic_cast<GLoader*>(getChildByName("icon"));
-		_input = dynamic_cast<GTextInput*>(getChildByName("title"));
-
-		if (!buffer->Seek(pos, 6))
-			return;
-
-		if ((ObjectType)buffer->ReadByte() != _pkgItem->objectType)
-			return;
-
-		const std::string* str;
-		if ((str = buffer->ReadSP())) {
-			setTitle(*str);
-		}
-		if ((str = buffer->ReadSP())) {
-			setIcon(*str);
-		}	
-		if (buffer->ReadBool()) {
-			setTitleColor(buffer->ReadColor());
-		}
-		int iv = buffer->ReadInt();
-		if (iv != 0) {
-			setTitleFontSize(iv);
-		}
-
-		if (buffer->ReadBool()){
-			if (_input){
-				if ((str = buffer->ReadSP())) {
-					_input->setPlaceHolder(str->c_str());
-				}
-				if ((str = buffer->ReadSP())) {
-					//_input->setRestrict(*str);
-				}	
-				iv = buffer->ReadInt();
-				if (iv != 0) {
-					_input->setMaxLength(iv);
-				}	
-				iv = buffer->ReadInt();
-				if (iv != 0) {
-					//_input->setKeyboardType(iv);
-				}	
-				if (buffer->ReadBool()) {
-					_input->setPassword(true);
-				}
-			}
-			else
-				buffer->Skip(13);
 		}
 	}
 

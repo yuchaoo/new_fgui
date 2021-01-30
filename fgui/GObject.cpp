@@ -1,6 +1,5 @@
 #include "GObject.h"
 #include "PackageManager.h"
-#include "UIPackage.h"
 #include "HitTest.h"
 #include "Controller.h"
 #include "base/CCEventListenerTouch.h"
@@ -31,6 +30,7 @@
 #include "GGraph.h"
 #include "GLoader.h"
 #include "GProgressBar.h"
+#include "ObjectData.h"
 
 namespace fgui {
 
@@ -93,9 +93,7 @@ namespace fgui {
 	}
 
 	GObject::GObject()
-	:_pkgItem(NULL)
-	,_uiPackage(NULL)
-	,_isTouchEnabled(false)
+	:_isTouchEnabled(false)
 	,m_listener(NULL)
 	,m_nodeSelf(NULL)
 	,_groupId(0)
@@ -115,9 +113,6 @@ namespace fgui {
 	}
 
 	GObject::~GObject() {
-		if (_uiPackage) {
-			_uiPackage->release();
-		}
 		if (_relations) {
 			_relations->release();
 		}
@@ -166,20 +161,6 @@ namespace fgui {
 			}
 			m_relationObservers.clear();
 		}
-	}
-
-	void GObject::constructFromResource(UIPackage* pkg, PackageItem* pt) {
-		_uiPackage = pkg;
-		_pkgItem = pt;
-		if (_uiPackage) {
-			_uiPackage->retain();
-		}
-		m_nodeSelf = dynamic_cast<cocos2d::Node*>(this);
-		m_nodeSelf->setCascadeOpacityEnabled(true);
-		m_nodeSelf->setCascadeColorEnabled(true);
-		m_nodeSelf->setAnchorPoint(cocos2d::Vec2(0, 1.0f));
-		m_nodeSelf->setIgnoreAnchorPointForPosition(false);
-		_relations = new Relations(m_nodeSelf);
 	}
 
 	void GObject::constructFromItem(Package* pkg, PkgItem* item) {
@@ -264,153 +245,6 @@ namespace fgui {
 		}
 
 		m_customData = info->customData;
-	}
-
-	void GObject::setupBefore(ByteBuffer* buffer, int beginPos, cocos2d::Node* parent) {
-		cocos2d::Node* node = dynamic_cast<cocos2d::Node*>(this);
-		if (!node) {
-			return;
-		}
-		float f1, f2;
-
-		buffer->Seek(beginPos, 0);
-		buffer->Skip(5);
-
-		_id = buffer->ReadS();
-		std::string name = buffer->ReadS();
-		node->setName(name);
-
-		float posx = buffer->ReadInt();
-		float posy = buffer->ReadInt();
-
-		if (buffer->ReadBool()){
-			cocos2d::Size s;
-			s.width = buffer->ReadInt();
-			s.height = buffer->ReadInt();
-			node->setContentSize(s);
-		}
-
-		if (buffer->ReadBool()){
-			_minSize.width = buffer->ReadInt();
-			_maxSize.width = buffer->ReadInt();
-			_minSize.height = buffer->ReadInt();
-			_maxSize.height = buffer->ReadInt();
-		}
-
-		if (buffer->ReadBool()){
-			f1 = buffer->ReadFloat();
-			f2 = buffer->ReadFloat();
-			node->setScale(f1, f2);
-		}
-
-		if (buffer->ReadBool()){
-			f1 = buffer->ReadFloat();
-			f2 = buffer->ReadFloat();
-			node->setSkewX(f1);
-			node->setSkewY(f2);
-		}
-
-		const cocos2d::Size& parentSize = parent->getContentSize();
-		if (buffer->ReadBool()){
-			f1 = buffer->ReadFloat();
-			f2 = buffer->ReadFloat();
-			node->setAnchorPoint(cocos2d::Vec2(f1, 1.0f - f2));
-			_isPivotAsAchorPoint = buffer->ReadBool();
-			m_nodeSelf->setIgnoreAnchorPointForPosition(false);
-		}
-		if (_isPivotAsAchorPoint) {
-			node->setPosition(posx, parentSize.height - posy);
-		}
-		else {
-			const cocos2d::Size& size = node->getContentSize();
-			const cocos2d::Vec2& ap = node->getAnchorPoint();
-			node->setPosition(posx + ap.x * size.width, parentSize.height - posy + (ap.y - 1.0f) * size.height);
-		}
-
-		f1 = buffer->ReadFloat();
-		if (f1 != 1) {
-			node->setCascadeOpacityEnabled(true);
-			node->setOpacity(f1 * 255);
-		}
-
-		f1 = buffer->ReadFloat();
-		if (f1 != 0) {
-			node->setRotation(f1);
-		}
-
-		if (!buffer->ReadBool()) {
-			node->setVisible(false);
-		}
-		
-		bool isTouchEnabled = buffer->ReadBool();
-		_isGray = buffer->ReadBool();
-
-		BlendMode blendMode = (BlendMode)buffer->ReadByte(); //blendMode
-		if (blendMode != BlendMode::NORMAL) {
-
-		}
-
-		bool isHsv = buffer->ReadBool(); //filter
-		if (isHsv) {
-			float f1 = buffer->ReadFloat();
-			float f2 = buffer->ReadFloat();
-			float f3 = buffer->ReadFloat();
-			float f4 = buffer->ReadFloat();
-			setHSVMode(isHsv);
-			setHSVValue(f4, f3, f1, f2);
-		}
-		const std::string& str = buffer->ReadS();
-		if (!str.empty()) {
-			m_customData = cocos2d::Value(str);
-		}
-	}
-
-	void GObject::setupAfter(ByteBuffer* buffer, int beginPos) {
-		buffer->Seek(beginPos, 1);
-
-		const std::string& str = buffer->ReadS();
-		if (!str.empty()) {
-			//setTooltips(str);
-		}	
-
-		int groupId = buffer->ReadShort();
-		if (groupId >= 0) {
-			_groupId = groupId;
-			const cocos2d::Vector<cocos2d::Node*>& children = m_nodeSelf->getParent()->getChildren();
-			GGroup* group = dynamic_cast<GGroup*>(children.at(groupId));
-			if (group) {
-				group->addNode(m_nodeSelf);
-			}
-		}
-
-		buffer->Seek(beginPos, 2);
-
-		int cnt = buffer->ReadShort();
-		for (int i = 0; i < cnt; i++){
-			int nextPos = buffer->ReadShort();
-			nextPos += buffer->position;
-
-			GearBase* gear = getGear(buffer->ReadByte());
-			GComponent* parent = dynamic_cast<GComponent*>(m_nodeSelf->getParent());
-			gear->setup(buffer,parent);
-
-			buffer->position = nextPos;
-		}
-
-		if (_isGray) {
-			setGrayed(_isGray);
-		}
-		if (_isTouchEnabled) {
-			setTouchable(_isTouchEnabled);
-		}
-	}
-
-	void GObject::setupExtend(ByteBuffer* buffer) {
-
-	}
-
-	void GObject::setupScroll(ByteBuffer* buffer) {
-
 	}
 
 	void GObject::setupOverflow(OverflowType overflow) {

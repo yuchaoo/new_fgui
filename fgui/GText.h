@@ -18,7 +18,6 @@ namespace fgui {
 		void setTitleFontSize(int size);
 		void setIcon(const std::string& icon);
 	protected:
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* node);
 	private:
 		GLabel* _title;

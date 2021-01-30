@@ -8,6 +8,7 @@ namespace fgui {
 	class GController;
 	class GTransition;
 	class PkgItem;
+	struct ObjectInfo;
 
 	class GComponent : 
 		public cocos2d::Node, 
@@ -52,15 +53,8 @@ namespace fgui {
 	protected:
 		GComponent();
 		~GComponent();
-
-		virtual void setupScroll(ByteBuffer* buffer);
 		virtual void setupOverflow(OverflowType overflow);
-		virtual void constructFromResource(UIPackage* pkg, PackageItem* pt);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
-
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
-		virtual void setupExtend(ByteBuffer* buffer);
 		virtual void visit(cocos2d::Renderer* renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags) override;
 		
 		void onBeforeVisitScissor();

@@ -3,6 +3,8 @@
 #include "cocos2d.h"
 #include "Package.h"
 #include "PkgItem.h"
+#include "ObjectData.h"
+#include "ComponentData.h"
 
 using namespace cocos2d;
 
@@ -67,16 +69,6 @@ namespace fgui {
 		}
 	}
 
-	void GAnimation::constructFromResource(UIPackage* pkg, PackageItem* pt) {
-		GObject::constructFromResource(pkg, pt);
-		_uiPackage->loadItemAsset(pt);
-		//_animation = pt->animation->clone();
-		//_animation->retain();
-		//_animation->setLoops(-1);
-		//runAction(_animate);
-		setContentSize(cocos2d::Size(pt->width, pt->height));
-	}
-
 	void GAnimation::constructFromItem(Package* pkg, PkgItem* item) {
 		GObject::constructFromItem(pkg, item);
 		AnimateItem* animateItem = dynamic_cast<AnimateItem*>(item);
@@ -91,23 +83,6 @@ namespace fgui {
 		}
 		_swing = animateItem->isSwing();
 		setContentSize(item->getSize());
-	}
-
-	void GAnimation::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, pos, parent);
-		buffer->Seek(pos, 5);
-
-		if (buffer->ReadBool()) {
-			setColor((cocos2d::Color3B)buffer->ReadColor());
-		}
-		FlipType flipType = (FlipType)buffer->ReadByte();
-		setFlippedX(flipType == FlipType::BOTH || flipType == FlipType::HORIZONTAL);
-		setFlippedY(flipType == FlipType::BOTH || flipType == FlipType::VERTICAL);
-		int curFrame = buffer->ReadInt();
-		bool isPlaying = buffer->ReadBool();
-
-		setCurFrame(curFrame);
-		setAutoUpdate(isPlaying);
 	}
 
 	void GAnimation::setup(const ObjectInfo* inf, cocos2d::Node* parent) {

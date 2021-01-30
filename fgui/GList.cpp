@@ -5,6 +5,8 @@
 #include "GTweener.h"
 #include "TweenManager.h"
 #include "FguiUtils.h"
+#include "ComponentData.h"
+
 namespace fgui {
 	GList::GList():
 	_touchBeginTime(0.0f)
@@ -68,7 +70,7 @@ namespace fgui {
 		Node::addChild(child);
 	}
 
-	void GList::setCreateNodeCallback(std::function<void(cocos2d::Node*, int)> handler) {
+	void GList::setUpdateNodeCallback(std::function<void(cocos2d::Node*, int)> handler) {
 		_container->setUpdateNodeCallback(handler);
 	}
 
@@ -90,10 +92,6 @@ namespace fgui {
 
 	int GList::getVirtualItemCount() {
 		return _container->getVirtualItemCount();
-	}
-
-	void GList::constructFromResource(UIPackage* pkg, PackageItem* pt) {
-		GObject::constructFromResource(pkg, pt);
 	}
 
 	void GList::setupOverflow(OverflowType overflow) {
@@ -198,115 +196,6 @@ namespace fgui {
 			}
 		}
 		GObject::onTouchEnded(touch, event);
-	}
-
-	void GList::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GComponent::setupBefore(buffer, pos, parent);
-		buffer->Seek(pos, 5);
-
-		auto layout = (ListLayoutType)buffer->ReadByte();
-		_container->setLayoutType(layout);
-		auto selectMode = (ListSelectionMode)buffer->ReadByte();
-		auto hAlign = (cocos2d::TextHAlignment)buffer->ReadByte();
-		_container->setHAlignment(hAlign);
-		auto vAlign = (cocos2d::TextVAlignment)buffer->ReadByte();
-		_container->setVAlignment(vAlign);
-
-		int lineGap = buffer->ReadShort();
-		_container->setLineGap(lineGap);
-
-		int columnGap = buffer->ReadShort();
-		_container->setColumnGap(columnGap);
-
-		int lineCount = buffer->ReadShort();
-		_container->setLineCount(lineCount);
-
-		int columnCount = buffer->ReadShort();
-		_container->setColumnCount(columnCount);
-
-		auto autoResizeItem = buffer->ReadBool();
-		auto childrenRenderOrder = (ChildrenRenderOrder)buffer->ReadByte();
-		auto apexIndex = buffer->ReadShort();
-
-		if (buffer->ReadBool()){
-			Margin margn;
-			margn.top = buffer->ReadInt();
-			margn.bottom = buffer->ReadInt();
-			margn.left = buffer->ReadInt();
-			margn.right = buffer->ReadInt();
-			_container->setMargin(margn);
-		}
-
-		OverflowType overflow = (OverflowType)buffer->ReadByte();
-		setupOverflow(overflow);
-		if (overflow == OverflowType::SCROLL){ 
-			int savedPos = buffer->position;
-			buffer->Seek(pos, 7);
-			setupScroll(buffer);
-			buffer->position = savedPos;
-		}
-
-		if (buffer->ReadBool()) {
-			buffer->Skip(8);
-		}
-		
-		buffer->Seek(pos, 8);
-
-		const std::string* str;
-
-		std::string defaultItem = buffer->ReadS();
-		_container->setNodeUrl(defaultItem);
-
-		int itemCount = buffer->ReadShort();
-		for (int i = 0; i < itemCount; i++){
-			int nextPos = buffer->ReadShort();
-			nextPos += buffer->position;
-
-			str = buffer->ReadSP();
-			if (!str || (*str).empty()){
-				str = &defaultItem;
-				if ((*str).empty()){
-					buffer->position = nextPos;
-					continue;
-				}
-			}
-
-			cocos2d::Node* obj = PackageManager::getInstance()->createObjectByURL(*str);
-			
-			if (obj != nullptr){
-				addChild(obj);
-				str = buffer->ReadSP();
-				str = buffer->ReadSP();
-				str = buffer->ReadSP();
-				str = buffer->ReadSP();
-				str = buffer->ReadSP();
-				if (str) {
-					obj->setName(*str);
-				}
-				int cnt = buffer->ReadShort();
-				if (cnt > 0){
-					GComponent* gcom = dynamic_cast<GComponent*>(obj);
-					if (gcom){
-						for (int j = 0; j < cnt; j++){
-							GController* cc = gcom->getController(buffer->ReadS());
-							const std::string& pageId = buffer->ReadS();
-							cc->setSelectedPageId(pageId);
-						}
-					}
-				}
-			}
-			buffer->position = nextPos;
-		}
-	}
-
-	void GList::setupAfter(ByteBuffer* buffer, int pos) {
-		GComponent::setupAfter(buffer, pos);
-		buffer->Seek(pos, 6);
-
-		int i = buffer->ReadShort();
-		if (i != -1) {
-			//_selectionController = _parent->getControllerAt(i);
-		}
 	}
 
 	void GList::setup(const ObjectInfo* inf, cocos2d::Node* parent) {

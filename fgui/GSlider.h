@@ -15,12 +15,10 @@ namespace fgui {
 		void setValue(float value);
 		void setMax(float max);
 		void setPercent(float percent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
-		virtual void setupExtend(ByteBuffer* buffer);
-		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
-
-		virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 		void setSlidingCallback(std::function<void(float)> handler);
+	protected:
+		virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
 		void update();
 	private:
 		float _value;

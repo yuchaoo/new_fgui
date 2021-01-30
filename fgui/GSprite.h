@@ -55,8 +55,6 @@ namespace fgui {
 		virtual void setGrayed(bool value) override;
 		
 	protected:
-		virtual void constructFromResource(UIPackage* pkg, PackageItem* pt);
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
 		virtual void constructFromItem(Package* pkg, PkgItem* item);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
 

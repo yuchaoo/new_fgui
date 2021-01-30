@@ -2,6 +2,7 @@
 #include "Controller.h"
 #include "ByteBuffer.h"
 #include "GObject.h"
+#include "GearData.h"
 
 namespace fgui {
 

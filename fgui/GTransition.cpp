@@ -10,6 +10,7 @@
 #include "GLoader.h"
 #include "ObjectData.h"
 #include "base/ccTypes.h"
+#include "TransitionData.h"
 
 namespace fgui {
 	using namespace std;

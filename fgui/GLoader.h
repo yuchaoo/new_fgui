@@ -61,9 +61,6 @@ namespace fgui {
 		void loadExternal();
 		void updateLayout();
 		void clearLayout();
-
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
 	private:
 		std::string _url;

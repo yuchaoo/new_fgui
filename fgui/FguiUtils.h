@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 
 namespace fgui {
+
 	cocos2d::Vec2 coordF2C(const cocos2d::Vec2& parentP, cocos2d::Node* node);
 	float getLeft(cocos2d::Node* node, float width = 0.0f);
 	void setLeft(cocos2d::Node* node, float left);

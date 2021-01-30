@@ -30,9 +30,6 @@ namespace fgui {
 		void setClickListener(std::function<void()> handler);
 	protected:
 		void setState(const std::string& value);
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
-		virtual void setupExtend(ByteBuffer* buffer);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
 		virtual bool onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event);
 		virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);

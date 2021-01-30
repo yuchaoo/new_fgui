@@ -29,7 +29,7 @@ namespace fgui {
 		virtual void addChild(Node* child, int localZOrder, int tag);
 		virtual void addChild(Node* child, int localZOrder);
 		virtual void addChild(Node* child);
-		void setCreateNodeCallback(std::function<void(cocos2d::Node*, int)> handler);
+		void setUpdateNodeCallback(std::function<void(cocos2d::Node*, int)> handler);
 		void setNodeUrl(const std::string& url);
 		void setVirtual();
 		bool isVirtual();
@@ -37,10 +37,7 @@ namespace fgui {
 		int getVirtualItemCount();
 
 	protected:
-		virtual void constructFromResource(UIPackage* pkg, PackageItem* pt);
 		virtual void setupOverflow(OverflowType overflow);
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 		virtual bool onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event);
 		virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);

@@ -26,8 +26,6 @@ namespace fgui {
 		void setSingleLine(bool value);
 		void setPassword(bool value);
 	protected:
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
-		virtual void setupAfter(ByteBuffer* buffer, int pos);
 		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 		virtual void editBoxReturn(EditBox* editBox) override;
 		virtual void editBoxTextChanged(EditBox* editBox, const std::string& text) override;

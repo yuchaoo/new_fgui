@@ -1,6 +1,5 @@
 #include "TestScene.h"
 #include "PackageManager.h"
-#include "UIPackage.h"
 #include "UIConfig.h"
 #include "GProgressBar.h"
 #include "Package.h"
@@ -24,9 +23,9 @@ bool TestScene::init() {
 	
 	
 	pkgMgr->createPkg("font", "res/font");
-	pkgMgr->loadPackage("font", "res/font");
+	//pkgMgr->loadPackage("font", "res/font");
 
-	UIPackage* uipkg = pkgMgr->loadPackage("main", "res/main");
+	//UIPackage* uipkg = pkgMgr->loadPackage("main", "res/main");
 	Package* package = pkgMgr->createPkg("main", "res/main");
 	
 	

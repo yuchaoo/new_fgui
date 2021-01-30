@@ -24,7 +24,6 @@ namespace fgui {
 		int getLineSize() { return _lineSize; }
 	protected:
 		void updateShape();
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
 		virtual void setup(const ObjectInfo* inf, cocos2d::Node* parent);
 		virtual void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags);
 	private:

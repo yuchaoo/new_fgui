@@ -23,7 +23,9 @@ namespace fgui {
     {
     public:
         static Relations* create(cocos2d::Node* owner);
-        
+		Relations(cocos2d::Node* owner);
+		~Relations();
+
         void add(cocos2d::Node* target, RelationType relationType);
         void add(cocos2d::Node* target, RelationType relationType, bool usePercent);
         void remove(cocos2d::Node* target, RelationType relationType);
@@ -42,8 +44,6 @@ namespace fgui {
         virtual void onTargetPosisitonChanged(cocos2d::Node* target, const cocos2d::Vec2& newPos, const cocos2d::Vec2& oldSize);
         virtual void onTargetExit(cocos2d::Node* target);
     private:
-        Relations(cocos2d::Node* owner);
-        ~Relations();
 
         cocos2d::Node* _owner;
         std::vector<RelationItem*> _items;

@@ -21,7 +21,6 @@
 #include "TweenValue.h"
 #include "GTweener.h"
 #include "UIConfig.h"
-#include "UIPackage.h"
 #include "GComponent.h"
 #include "GButton.h"
 #include "GSlider.h"

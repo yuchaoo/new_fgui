@@ -5,6 +5,7 @@
 #include "ByteBuffer.h"
 #include "GTweener.h"
 #include "ComponentData.h"
+#include "GearData.h"
 
 namespace fgui {
 

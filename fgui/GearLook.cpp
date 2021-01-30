@@ -1,11 +1,12 @@
 #include "GearLook.h"
 #include "GObject.h"
-#include "UIPackage.h"
 #include "ByteBuffer.h"
 #include "TweenManager.h"
 #include "Controller.h"
 #include "GTweener.h"
 #include "GComponent.h"
+#include "GearData.h"
+
 namespace fgui {
 	struct GearInfo;
 

@@ -5,6 +5,7 @@
 #include "fgui/GTweener.h"
 #include "fgui/TweenManager.h"
 #include "fgui/FguiUtils.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	GProgressBar::GProgressBar()
@@ -65,46 +66,6 @@ namespace fgui {
 		return twener->toDouble(oldValule, _value, duration)
 			->setEase(EaseType::Linear)
 			->setTarget(this, TweenPropType::Progress);
-	}
-
-	void GProgressBar::setupAfter(ByteBuffer* buffer, int pos) {
-		GComponent::setupAfter(buffer, pos);
-
-		if (!buffer->Seek(pos, 6))
-		{
-			update(_value);
-			return;
-		}
-
-		if ((ObjectType)buffer->ReadByte() != _pkgItem->objectType)
-		{
-			update(_value);
-			return;
-		}
-
-		_value = buffer->ReadInt();
-		_max = buffer->ReadInt();
-
-		update(_value);
-	}
-
-	
-
-	void GProgressBar::setupExtend(ByteBuffer* buffer) {
-		buffer->Seek(0, 6);
-
-		_titleType = (ProgressTitleType)buffer->ReadByte();
-		_reverse = buffer->ReadBool();
-
-		_title = dynamic_cast<GLabel*>(getChildByName("title"));
-		_barH = getChildByName("bar");
-		_barV = getChildByName("bar_v");
-		if (_barH) {
-			_barMaxWidth = _barH->getContentSize().width;
-		}
-		if (_barV) {
-			_barMaxHeight = _barV->getContentSize().height;
-		}
 	}
 
 	void GProgressBar::setup(const ObjectInfo* inf, cocos2d::Node* parent) {

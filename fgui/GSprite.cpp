@@ -3,6 +3,8 @@
 #include "ccShaderEx.h"
 #include "ccExtend.h"
 #include "PkgItem.h"
+#include "GComponent.h"
+#include "ComponentData.h"
 
 USING_NS_CC;
 
@@ -287,33 +289,6 @@ namespace fgui {
 		}
 		Sprite::setPosition(x,y);
 		onPositionChanged(this, oldPos, pos);
-	}
-
-	void GSprite::constructFromResource(UIPackage* pkg, PackageItem* pt) {
-		GObject::constructFromResource(pkg, pt);
-		pkg->loadItemAsset(pt);
-		setSpriteFrame(pt->spriteFrame);
-		if (pt->scale9Grid) {
-			setScale9Sprite(pt->scale9Grid);
-		}
-	}
-
-	void GSprite::setupBefore(ByteBuffer* buffer, int beginPos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, beginPos,parent);
-		buffer->Seek(beginPos, 5);
-		if (buffer->ReadBool()) {
-			setColor((Color3B)buffer->ReadColor());
-		}
-		FlipType type = (FlipType)buffer->ReadByte();
-		setFlipType(type);
-		int fillMethod = buffer->ReadByte();
-		if (fillMethod != 0) {
-			setFillMethod((FillMethod)fillMethod);
-			setFillOrigin((FillOrigin)buffer->ReadByte());
-			setFillClockwise(buffer->ReadBool());
-			setFillAmount(buffer->ReadFloat());
-		}
-		setBlendMode(_blendMode);
 	}
 
 	void GSprite::constructFromItem(Package* pkg, PkgItem* item) {

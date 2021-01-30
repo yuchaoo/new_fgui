@@ -42,9 +42,7 @@ namespace fgui {
 		virtual void setHSVMode(bool isHsv);
 		virtual void setHSVValue(float hue, float saturation, float brightness, float contrast);
 	protected:
-		virtual void constructFromResource(UIPackage* pkg, PackageItem* pt);
 		virtual void constructFromItem(Package* pkg, PkgItem* item);
-		virtual void setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent);
 		virtual void setup(const ObjectInfo* info, cocos2d::Node* parent);
 	private:
 		void drawFrame();

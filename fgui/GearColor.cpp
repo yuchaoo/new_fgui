@@ -1,12 +1,13 @@
 #include "GearColor.h"
 #include "GObject.h"
-#include "UIPackage.h"
 #include "ByteBuffer.h"
 #include "GLabel.h"
 #include "TweenManager.h"
 #include "GTweener.h"
 #include "Controller.h"
 #include "GComponent.h"
+#include "TextFormat.h"
+#include "GearData.h"
 
 namespace fgui {
 

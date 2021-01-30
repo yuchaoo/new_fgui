@@ -5,13 +5,13 @@
 #include <algorithm>
 
 #include "ToolSet.h"
-#include "UIPackage.h"
 #include "TextFormat.h"
 #include "GLabel.h"
 #include "GSprite.h"
 #include "GLoader.h"
 #include "PackageManager.h"
 #include "PkgItem.h"
+#include "ComponentData.h"
 
 namespace fgui {
 	USING_NS_CC;
@@ -418,50 +418,6 @@ namespace fgui {
 		case AutoSizeType::SHRINK:
 			this->setDimensions(size.width, 0);
 			break;
-		}
-	}
-
-	void GRichText::setupBefore(ByteBuffer* buffer, int pos, cocos2d::Node* parent) {
-		GObject::setupBefore(buffer, pos,parent);
-		buffer->Seek(pos, 5);
-		_textFormat->face = buffer->ReadS();
-		_textFormat->fontSize = buffer->ReadShort();
-		_textFormat->color = buffer->ReadColor();
-		_textFormat->align = (cocos2d::TextHAlignment)buffer->ReadByte();
-		_textFormat->verticalAlign = (cocos2d::TextVAlignment)buffer->ReadByte();
-		_textFormat->lineSpacing = buffer->ReadShort();
-		_textFormat->letterSpacing = buffer->ReadShort();
-		_ubbEnabled = buffer->ReadBool();
-		setAutoSize((AutoSizeType)buffer->ReadByte());
-		_textFormat->underline = buffer->ReadBool();
-		_textFormat->italics = buffer->ReadBool();
-		_textFormat->bold = buffer->ReadBool();
-		if (buffer->ReadBool()) {
-			
-		}
-		if (buffer->ReadBool()) {
-			_textFormat->outlineColor = buffer->ReadColor();
-			_textFormat->outlineSize = buffer->ReadFloat();
-			_textFormat->enableEffect(TextFormat::OUTLINE);
-		}
-		if (buffer->ReadBool()) {
-			_textFormat->shadowColor = buffer->ReadColor();
-			float f1 = buffer->ReadFloat();
-			float f2 = buffer->ReadFloat();
-			_textFormat->shadowOffset = cocos2d::Vec2(f1, -f2);
-			_textFormat->enableEffect(TextFormat::SHADOW);
-		}
-		if (buffer->ReadBool()) {
-
-		}
-	}
-
-	void GRichText::setupAfter(ByteBuffer* buffer, int pos) {
-		GObject::setupAfter(buffer, pos);
-		buffer->Seek(pos, 6);
-		const std::string& str = buffer->ReadS();
-		if (!str.empty()) {
-			setString(str);
 		}
 	}
 

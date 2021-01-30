@@ -1,8 +1,8 @@
 #include "GearAnimation.h"
 #include "GObject.h"
 #include "ByteBuffer.h"
-#include "UIPackage.h"
 #include "Controller.h"
+#include "GearData.h"
 
 namespace fgui {
 

@@ -1,6 +1,5 @@
 #include "GearXY.h"
 #include "GObject.h"
-#include "UIPackage.h"
 #include "ByteBuffer.h"
 #include "Controller.h"
 #include "GearBase.h"
@@ -8,6 +7,7 @@
 #include "GTweener.h"
 #include "GComponent.h"
 #include "FguiUtils.h"
+#include "GearData.h"
 
 namespace fgui {
 

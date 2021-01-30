@@ -1,7 +1,6 @@
 #include "ComponentData.h"
 #include "ByteBuffer.h"
 #include "PackageManager.h"
-#include "UIPackage.h"
 #include "PkgItem.h"
 #include "Package.h"
 
