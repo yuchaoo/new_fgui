@@ -2,6 +2,9 @@
 
 
 #include "FguiUtils.h"
+#include "PackageManager.h"
+#include "Package.h"
+#include "PkgItem.h"
 #include "BitmapFont.h"
 #include "ByteBuffer.h"
 #include "ChangePageAction.h"
@@ -36,7 +39,10 @@
 #include "GSprite.h"
 #include "GText.h"
 #include "GTextInput.h"
+#include "cocosext/ccExtend.h"
+#include "cocosext/ccShaderEx.h"
 
 namespace fgui {
 	const char* getFguiVersion();
+	void initFgui();
 }

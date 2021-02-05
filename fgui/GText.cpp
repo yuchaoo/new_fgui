@@ -58,6 +58,7 @@ namespace fgui {
 		_icon = dynamic_cast<GLoader*>(getChildByName("icon"));
 		_input = dynamic_cast<GTextInput*>(getChildByName("title"));
 		const TextInfo* info = dynamic_cast<const TextInfo*>(inf);
+
 		if (!info->title.empty()) {
 			setTitle(info->title);
 		}

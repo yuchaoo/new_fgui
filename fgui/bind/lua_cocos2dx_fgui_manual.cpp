@@ -31,7 +31,7 @@ int lua_cocos2dx_fgui_GAnimation_setFrames(lua_State* tolua_S) {
 
 
 #if COCOS2D_DEBUG >= 1
-	if (!tolua_isusertype(tolua_S, 1, "fgui.GAnimation", 0, &tolua_err)) goto tolua_lerror;
+	if (!tolua_isusertype(tolua_S, 1, "fgui::GAnimation", 0, &tolua_err)) goto tolua_lerror;
 #endif
 
 	cobj = (fgui::GAnimation*)tolua_tousertype(tolua_S, 1, 0);
@@ -77,7 +77,7 @@ int lua_cocos2dx_fgui_GAnimation_getFrames(lua_State* tolua_S) {
 
 
 #if COCOS2D_DEBUG >= 1
-	if (!tolua_isusertype(tolua_S, 1, "fgui.GAnimation", 0, &tolua_err)) goto tolua_lerror;
+	if (!tolua_isusertype(tolua_S, 1, "fgui::GAnimation", 0, &tolua_err)) goto tolua_lerror;
 #endif
 
 	cobj = (fgui::GAnimation*)tolua_tousertype(tolua_S, 1, 0);
@@ -107,7 +107,7 @@ int lua_cocos2dx_fgui_GAnimation_getFrames(lua_State* tolua_S) {
 }
 
 int register_fgui_GAnimation_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GAnimation");
+	lua_pushstring(L, "fgui::GAnimation");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
@@ -151,7 +151,7 @@ int lua_cocos2dx_fgui_GButton_setClickListener(lua_State* tolua_S) {
 }
 
 int register_fgui_GButton_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GButton");
+	lua_pushstring(L, "fgui::GButton");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
@@ -195,7 +195,7 @@ int lua_cocos2dx_fgui_GSlider_setSlidingCallback(lua_State* tolua_S) {
 }
 
 int register_fgui_GSlider_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GSlider");
+	lua_pushstring(L, "fgui::GSlider");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
@@ -241,7 +241,7 @@ int lua_cocos2dx_fgui_GList_setUpdateNodeCallback(lua_State* tolua_S) {
 }
 
 int register_fgui_GList_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GList");
+	lua_pushstring(L, "fgui::GList");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
@@ -438,7 +438,7 @@ int lua_cocos2dx_fgui_GTransition_setHook(lua_State* tolua_S) {
 }
 
 int register_fgui_GTransition_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GTransition");
+	lua_pushstring(L, "fgui::GTransition");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
@@ -547,7 +547,7 @@ int lua_cocos2dx_fgui_GTweener_onStart(lua_State* tolua_S) {
 }
 
 int register_fgui_GTweener_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GTweener");
+	lua_pushstring(L, "fgui::GTweener");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
@@ -595,11 +595,51 @@ int lua_cocos2dx_fgui_GContainer_setUpdateNodeCallback(lua_State* tolua_S) {
 }
 
 int register_fgui_GContainer_manual(lua_State* L) {
-	lua_pushstring(L, "fgui.GContainer");
+	lua_pushstring(L, "fgui::GContainer");
 	lua_rawget(L, LUA_REGISTRYINDEX);
 	if (lua_istable(L, -1))
 	{
 		tolua_function(L, "setUpdateNodeCallback", lua_cocos2dx_fgui_GContainer_setUpdateNodeCallback);
+	}
+	lua_pop(L, 1);
+	return 1;
+}
+
+int lua_cocos2dx_fgui_UIConfig_setDefaultFont(lua_State* L) {
+#if COCOS2D_DEBUG >= 1
+	if (!tolua_isusertable(L, 1, "fgui::UIConfig", 0, NULL)) {
+		CCLOG("arg1 is not fgui::UIConfig in 'lua_cocos2dx_fgui_UIConfig_setDefaultFont'");
+		return 0;
+	}
+#endif
+	if (lua_isstring(L, 2)) {
+		fgui::UIConfig::defaultFont = lua_tostring(L, 2);
+		return 0;
+	}
+	CCLOG("the arg2 is not a string, in 'lua_cocos2dx_fgui_UIConfig_setDefaultFont'");
+	return 0;
+}
+
+int lua_cocos2dx_fgui_UIConfig_manual(lua_State* L) {
+	lua_pushstring(L, "fgui::UIConfig");
+	lua_rawget(L, LUA_REGISTRYINDEX);
+	if (lua_istable(L, -1)) {
+		tolua_function(L, "setDefaultFont", lua_cocos2dx_fgui_UIConfig_setDefaultFont);
+	}
+	lua_pop(L, 1);
+	return 0;
+}
+
+int lua_cocos2dx_fgui_initFgui(lua_State* L) {
+	fgui::initFgui();
+	return 0;
+}
+
+int lua_cocos2dx_fgui_global(lua_State* L) {
+	lua_getglobal(L, "fgui");
+	if (lua_istable(L, -1))
+	{
+		tolua_function(L, "initFgui", lua_cocos2dx_fgui_initFgui);
 	}
 	lua_pop(L, 1);
 	return 1;
@@ -613,6 +653,7 @@ int register_fgui_manual(lua_State* L) {
 	register_fgui_GTransition_manual(L);
 	register_fgui_GTweener_manual(L);
 	register_fgui_GContainer_manual(L);
+	lua_cocos2dx_fgui_UIConfig_manual(L);
 	return 1;
 }
 
@@ -620,6 +661,7 @@ int register_fgui_module(lua_State* L) {
 	lua_getglobal(L, "_G");
 	register_all_cocos2dx_fgui(L);
 	register_fgui_manual(L);
+	lua_cocos2dx_fgui_global(L);
 	lua_pop(L, 1);
 	return 1;
 }

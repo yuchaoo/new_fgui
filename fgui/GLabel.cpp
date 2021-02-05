@@ -1,10 +1,11 @@
+#include "ComponentData.h"
 #include "GLabel.h"
 #include "UIConfig.h"
 #include "PackageManager.h"
 #include "BitmapFont.h"
 #include "PkgItem.h"
 #include "FguiUtils.h"
-#include "ComponentData.h"
+
 
 static cocos2d::Color3B toGrayed(const cocos2d::Color3B& source)
 {
@@ -26,7 +27,8 @@ namespace fgui {
 	GLabel::GLabel()
 	:_bmFontCanTint(false)
 	, _bUpdateContentSize(false)
-	, _bSingleLine(false){
+	, _bSingleLine(false)
+	, _autoSize(AutoSizeType::BOTH){
 		_textFormat = new TextFormat;
 	}
 
@@ -62,32 +64,9 @@ namespace fgui {
 		const LabelInfo* info = dynamic_cast<const LabelInfo*>(inf);
 		*_textFormat = info->format;
 
-		const cocos2d::Size& size = getContentSize();
-		switch (info->autoSize)
-		{
-		case AutoSizeType::NONE: {
-			this->setOverflow(cocos2d::Label::Overflow::CLAMP);
-			this->setDimensions(size.width, size.height);
-			break;
-		}
-		case AutoSizeType::BOTH: {
-			this->setOverflow(cocos2d::Label::Overflow::NONE);
-			this->setDimensions(0, 0);
-			break;
-		}
-		case AutoSizeType::HEIGHT: {
-			this->setOverflow(cocos2d::Label::Overflow::RESIZE_HEIGHT);
-			this->setDimensions(size.width, 0);
-			break;
-		}	
-		case AutoSizeType::SHRINK: {
-			this->setOverflow(cocos2d::Label::Overflow::SHRINK);
-			this->setDimensions(size.width, size.height);
-			break;
-		}
-		}
-
+		setAutoSize(info->autoSize);
 		setSingleLine(info->bSingleLine);
+		setString(info->str);
 
 		if (info->bOutLine) {
 			_textFormat->enableEffect(TextFormat::OUTLINE);
@@ -96,8 +75,6 @@ namespace fgui {
 			_textFormat->enableEffect(TextFormat::SHADOW);
 		}
 		applyTextFormat();
-
-		setString(info->str);
 
 		if (info->blendMode != BlendMode::NORMAL) {
 			setBlendMode(info->blendMode);
@@ -233,28 +210,36 @@ namespace fgui {
 	void GLabel::setSingleLine(bool bSingleLine) {
 		if (_bSingleLine != bSingleLine) {
 			_bSingleLine = bSingleLine;
-			moveAnchorPoint(this, 0.5f, 0.5f);
-			this->setDimensions(0, 0);
 		}
 	}
 
 	void GLabel::setAutoSize(AutoSizeType autoSize) {
+		if (_autoSize == autoSize) {
+			return;
+		}
 		switch (autoSize)
 		{
 		case AutoSizeType::NONE: {
+			const cocos2d::Size& size = getContentSize();
 			this->setOverflow(cocos2d::Label::Overflow::CLAMP);
+			this->setDimensions(size.width, size.height);
 			break;
 		}
 		case AutoSizeType::BOTH: {
 			this->setOverflow(cocos2d::Label::Overflow::NONE);
+			this->setDimensions(0, 0);
 			break;
 		}
 		case AutoSizeType::HEIGHT: {
+			const cocos2d::Size& size = getContentSize();
 			this->setOverflow(cocos2d::Label::Overflow::RESIZE_HEIGHT);
+			this->setDimensions(size.width, 0);
 			break;
 		}
 		case AutoSizeType::SHRINK: {
+			const cocos2d::Size& size = getContentSize();
 			this->setOverflow(cocos2d::Label::Overflow::SHRINK);
+			this->setDimensions(size.width, size.height);
 			break;
 		}
 		}

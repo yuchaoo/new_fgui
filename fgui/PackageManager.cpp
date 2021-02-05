@@ -1,7 +1,7 @@
 #include "PackageManager.h"
 #include "GObject.h"
-#include "ccExtend.h"
-#include "ccShaderEx.h"
+#include "cocosext/ccExtend.h"
+#include "cocosext/ccShaderEx.h"
 #include "Package.h"
 
 namespace fgui {
@@ -14,8 +14,18 @@ namespace fgui {
 		return mgr;
 	}
 
+	PackageManager::PackageManager() {
+
+	}
+
+	PackageManager::~PackageManager() {
+		for (auto iter = _pkgs.begin(); iter != _pkgs.end(); ++iter) {
+			delete iter->second;
+		}
+	}
+
 	void PackageManager::init() {
-		loadShaderEx();
+		
 	}
 
 	bool PackageManager::parseURL(const std::string& url, std::string& pkgName, std::string& itemName, bool& isById) {

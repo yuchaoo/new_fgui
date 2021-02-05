@@ -9,8 +9,9 @@
 #include "GLabel.h"
 #include "GLoader.h"
 #include "ObjectData.h"
-#include "base/ccTypes.h"
 #include "TransitionData.h"
+
+using namespace cocos2d;
 
 namespace fgui {
 	using namespace std;
@@ -389,7 +390,7 @@ namespace fgui {
 		}
 	}
 
-	void GTransition::setValue(const std::string& label, const ValueVector& values)
+	void GTransition::setValue(const std::string& label, const cocos2d::ValueVector& values)
 	{
 		for (auto& item : _items)
 		{
@@ -1269,7 +1270,7 @@ namespace fgui {
 		_autoPlay = info->autoPlay;
 		_autoPlayTimes = info->autoPlayTimes;
 		_autoPlayDelay = info->autoPlayDelay;
-		for (int i = 0; i < info->items.size(); i++){
+		for (size_t i = 0; i < info->items.size(); i++){
 			TransitionItemInfo* itemInfo = info->items[i];
 			TransitionItem* item = new TransitionItem(itemInfo->type);
 			_items.push_back(item);

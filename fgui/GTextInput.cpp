@@ -1,7 +1,7 @@
-#include "fgui/GTextInput.h"
-#include "fgui/ByteBuffer.h"
-#include "fgui/TextFormat.h"
-#include "fgui/UIConfig.h"
+#include "GTextInput.h"
+#include "ByteBuffer.h"
+#include "TextFormat.h"
+#include "UIConfig.h"
 #include "ObjectData.h"
 #include "ComponentData.h"
 using namespace cocos2d::ui;
@@ -18,8 +18,9 @@ namespace fgui {
 
 	bool GTextInput::init() {
 		EditBox::init();
-		Scale9Sprite* sprite = Scale9Sprite::create("ty_sort_list.png");
+		Scale9Sprite* sprite = Scale9Sprite::create();
 		initWithSizeAndBackgroundSprite(cocos2d::Size(100,100), sprite);
+		sprite->setAnchorPoint(cocos2d::Vec2(0, 1.0f));
 		this->addChild(sprite);
 		setDelegate(this);
 		return true;
@@ -44,6 +45,7 @@ namespace fgui {
 		setFontSize(_textFormat->fontSize);
 		setPlaceholderFontSize(_textFormat->fontSize);
 		setFontColor((cocos2d::Color3B)_textFormat->color);
+		setTextHorizontalAlignment(_textFormat->align);
 	}
 
 	bool GTextInput::isSingleLine() const
@@ -75,6 +77,7 @@ namespace fgui {
 
 	void GTextInput::setup(const ObjectInfo* inf, cocos2d::Node* parent) {
 		GObject::setup(inf, parent);
+
 		const TextInputInfo* info = dynamic_cast<const TextInputInfo*>(inf);
 		*_textFormat = info->format;
 		applyTextFormat();

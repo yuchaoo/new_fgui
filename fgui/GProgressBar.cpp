@@ -1,10 +1,10 @@
-#include "fgui/GProgressBar.h"
-#include "fgui/GLabel.h"
-#include "fgui/GSprite.h"
-#include "fgui/GLoader.h"
-#include "fgui/GTweener.h"
-#include "fgui/TweenManager.h"
-#include "fgui/FguiUtils.h"
+#include "GProgressBar.h"
+#include "GLabel.h"
+#include "GSprite.h"
+#include "GLoader.h"
+#include "GTweener.h"
+#include "TweenManager.h"
+#include "FguiUtils.h"
 #include "ComponentData.h"
 
 namespace fgui {
@@ -76,10 +76,10 @@ namespace fgui {
 		_barH = getChildByName("bar");
 		_barV = getChildByName("bar_v");
 		if (_barH) {
-			_barMaxWidth = _barH->getContentSize().width;
+			_barMaxWidth = getContentSize().width;
 		}
 		if (_barV) {
-			_barMaxHeight = _barV->getContentSize().height;
+			_barMaxHeight = getContentSize().height;
 		}
 		_titleType = info->titleType;
 		_reverse = info->bReverse;

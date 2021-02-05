@@ -1,7 +1,13 @@
 #pragma once
+
 #include "base/CCRef.h"
 #include <string>
 #include <unordered_map>
+
+namespace cocos2d {
+	class Node;
+}
+
 namespace fgui {
 	class Package;
 	class PkgItem;
@@ -19,6 +25,8 @@ namespace fgui {
 		cocos2d::Node* createNodeByName(const std::string& pkgName, const std::string& itemName);
 		cocos2d::Node* createNodeById(const std::string& pkgId, const std::string& itemId);
 	private:
+		PackageManager();
+		~PackageManager();
 		std::unordered_map<std::string, Package*> _pkgs;
 		std::unordered_map<std::string, Package*> _pkgsByName;
 	};

@@ -1,4 +1,4 @@
-#include "fgui/GAnimation.h"
+#include "GAnimation.h"
 #include "cocosext/ccShaderEx.h"
 #include "cocos2d.h"
 #include "Package.h"
@@ -157,7 +157,7 @@ namespace fgui {
 	void GAnimation::play(int start, int end , int loops ) {
 		_initFrame = MAX(0,start);
 		_curFrame = _initFrame;
-		_endFrame = end > 0 ? MIN( end, _frames.size() - 1) : _frames.size() - 1;
+		_endFrame = end > 0 ? MIN( end, (int)_frames.size() - 1) : (int)_frames.size() - 1;
 		_totalTimes = loops;
 		_escape = 0;
 		_bEnd = false;

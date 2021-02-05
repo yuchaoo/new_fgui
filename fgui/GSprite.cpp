@@ -1,7 +1,7 @@
 #include "GSprite.h"
 #include <algorithm>
-#include "ccShaderEx.h"
-#include "ccExtend.h"
+#include "cocosext/ccShaderEx.h"
+#include "cocosext/ccExtend.h"
 #include "PkgItem.h"
 #include "GComponent.h"
 #include "ComponentData.h"

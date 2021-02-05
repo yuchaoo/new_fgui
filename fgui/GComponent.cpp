@@ -1,3 +1,4 @@
+#include "ComponentData.h"
 #include "GComponent.h"
 #include "PackageManager.h"
 #include "HitTest.h"
@@ -13,7 +14,7 @@
 #include "GLoader.h"
 #include "PkgItem.h"
 #include "Package.h"
-#include "ComponentData.h"
+
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #define CC_CLIPPING_NODE_OPENGLES 0
@@ -145,7 +146,7 @@ namespace fgui {
 	}
 
 	GController* GComponent::getControllerAt(int index) {
-		if (index < m_controllers.size()) {
+		if (index < (int)m_controllers.size()) {
 			return m_controllers[index];
 		}
 		return NULL;
@@ -515,7 +516,7 @@ namespace fgui {
 			}
 		}
 
-		for (int i = 0; i < info->transitions.size(); ++i) {
+		for (size_t i = 0; i < info->transitions.size(); ++i) {
 			GTransition* trans = new GTransition(this);
 			trans->setup(info->transitions[i]);
 			_transitions.push_back(trans);

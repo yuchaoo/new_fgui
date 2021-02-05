@@ -18,7 +18,7 @@ bool TestScene::init() {
 	UIConfig::registerFont("Dutch801", "res/Dutch801.ttf");
 	UIConfig::defaultFont = "Dutch801";
 
-	auto pkgMgr = PackageManager::getInstance();
+	/*auto pkgMgr = PackageManager::getInstance();
 	const cocos2d::Size& winSize = Director::getInstance()->getWinSize();
 	
 	
@@ -30,23 +30,32 @@ bool TestScene::init() {
 	
 	
 
-	/*cocos2d::Node* uiNode = uipkg->createObjectByName("com1");
+	cocos2d::Node* uiNode = uipkg->createObjectByName("com1");
 	uiNode->setAnchorPoint(cocos2d::Vec2(0, 0));
 	uiNode->setPosition(cocos2d::Vec2(0, 0));
-	addChild(uiNode);*/
+	addChild(uiNode);
 
-	cocos2d::Node* node = package->createNodeByName("com1");
+	cocos2d::Node* node = package->createNodeByName("mainUI");
 	cocos2d::Vec2 ap = node->getAnchorPoint();
 	node->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
 	node->setIgnoreAnchorPointForPosition(false);
 	node->setPosition(cocos2d::Vec2(winSize.width / 2, winSize.height / 2));
-	addChild(node);
+	addChild(node);*/
 
-	GComponent* comp = dynamic_cast<GComponent*>(node);
-	GController* controller = comp->getController("c1");
-	
-	GComponent* comp1 = dynamic_cast<GComponent*>(node->getChildByName("n24"));
-	GProgressBar* bar = dynamic_cast<GProgressBar*>(node->getChildByName("n25"));
+	/*fgui::GText* text = dynamic_cast<fgui::GText*>(node);
+	text->setTitle("ddddddddddd");
+
+	cocos2d::Label* label = cocos2d::Label::createWithTTF("ninfodsaopfa", "res/Dutch801.ttf",20);
+	label->setPosition(500, 300);
+
+	cocos2d::Size labelSize(200,100);
+	label->setContentSize(labelSize);
+	label->setOverflow(cocos2d::Label::Overflow::CLAMP);
+	label->setDimensions(labelSize.width, labelSize.height - 50);
+	addChild(label);
+
+	labelSize = label->getContentSize();
+	CCLOG("dd");*/
 
 	/*GButton* button1 = dynamic_cast<GButton*>(node->getChildByName("n17"));
 	button1->setClickListener([button1, comp1, bar]() {
@@ -60,9 +69,9 @@ bool TestScene::init() {
 		tweener->toValue(0, 100, 0.5f);
 	});*/
 
-	GList* list = dynamic_cast<GList*>(node->getChildByName("n37"));
+	/*GList* list = dynamic_cast<GList*>(node->getChildByName("n37"));
 	list->setVirtual();
-	list->setVirtualItemCount(100);
+	list->setVirtualItemCount(100);*/
 
 	/*Sprite* sprite = cocos2d::Sprite::create("res/header/icon.png");
 	sprite->setPosition(300, 300);

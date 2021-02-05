@@ -59,5 +59,6 @@ namespace fgui {
 		bool _bmFontCanTint;
 		bool _bUpdateContentSize;
 		bool _bSingleLine;
+		AutoSizeType _autoSize;
 	};
 }
